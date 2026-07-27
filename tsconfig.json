@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@telex/atoms": ["./libs/lib-atoms/index.ts"],
+      "@telex/pages/*": ["./libs/lib-pages/*"]
     }
   },
   "include": [
