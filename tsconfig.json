@@ -19,9 +19,9 @@
       }
     ],
     "paths": {
-      "@telex/atoms": ["./libs/lib-atoms/index.ts"],
-      "@telex/fonts": ["./libs/lib-fonts/index.ts"],
-      "@telex/pages/*": ["./libs/lib-pages/*"]
+      "@dispatch/atoms": ["./libs/lib-atoms/index.ts"],
+      "@dispatch/fonts": ["./libs/lib-fonts/index.ts"],
+      "@dispatch/pages/*": ["./libs/lib-pages/*"]
     }
   },
   "include": [

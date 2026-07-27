@@ -1,4 +1,4 @@
-import { AtomLogo } from '@telex/atoms';
+import { AtomLogo } from '@dispatch/atoms';
 
 export function PageFeed() {
   return (

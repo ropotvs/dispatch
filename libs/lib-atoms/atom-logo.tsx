@@ -4,7 +4,7 @@ export function AtomLogo(props: { height?: number }) {
       className="font-bold tracking-tight select-none"
       style={{ fontSize: props.height ?? 24, lineHeight: 1 }}
     >
-      telex
+      dispatch
       <span className="text-accent">.</span>
     </span>
   );

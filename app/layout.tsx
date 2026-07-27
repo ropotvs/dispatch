@@ -1,10 +1,10 @@
-import { fontSpaceMono } from '@telex/fonts';
+import { fontSpaceMono } from '@dispatch/fonts';
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import './layout.css';
 
 export const metadata: Metadata = {
-  title: 'Telex',
+  title: 'Dispatch',
   description: 'A small message board',
 };
 

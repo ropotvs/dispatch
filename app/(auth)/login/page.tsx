@@ -1,4 +1,4 @@
-import { PageAuthLogin } from '@telex/pages/page-auth-login';
+import { PageAuthLogin } from '@dispatch/pages/page-auth-login';
 
 export default function LoginPage() {
   return <PageAuthLogin />;
