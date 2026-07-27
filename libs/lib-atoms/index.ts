@@ -3,5 +3,6 @@ export * from './atom-button';
 export * from './atom-input';
 export * from './atom-label';
 export * from './atom-logo';
+export * from './atom-menu';
 export * from './atom-skeleton';
 export * from './atom-tag';
