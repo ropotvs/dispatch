@@ -1,11 +1,16 @@
-export function AtomLogo(props: { height?: number }) {
+import { clsx } from 'clsx';
+import { ComponentProps } from 'react';
+
+export function AtomLogo(props: ComponentProps<'span'>) {
   return (
     <span
-      className="font-bold tracking-tight select-none"
-      style={{ fontSize: props.height ?? 24, lineHeight: 1 }}
+      {...props}
+      className={clsx(
+        'font-mono tracking-[0.12em] select-none',
+        props.className,
+      )}
     >
-      dispatch
-      <span className="text-accent">.</span>
+      ◆ DISPATCH
     </span>
   );
 }
