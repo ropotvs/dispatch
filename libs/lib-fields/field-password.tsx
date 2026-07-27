@@ -5,6 +5,7 @@ import { IconEye, IconEyeOff } from '@dispatch/icons';
 import { TypeField } from '@dispatch/types';
 import { clsx } from 'clsx';
 import { ReactNode, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { Field } from './field';
 
 export function FieldPassword(
@@ -14,6 +15,8 @@ export function FieldPassword(
     autocomplete?: 'current-password' | 'new-password';
   },
 ) {
+  const form = useFormContext();
+  const registration = form.register(props.name);
   const [filled, setFilled] = useState(false);
   const [revealed, setRevealed] = useState(false);
 
@@ -21,14 +24,17 @@ export function FieldPassword(
     <Field label={props.label}>
       <div className="relative">
         <AtomInput
+          {...registration}
           id={props.id}
-          name={props.name}
           className={clsx(filled && 'pr-11')}
           spellCheck={false}
           autoComplete={props.autocomplete}
           placeholder={props.placeholder}
           type={revealed ? 'text' : 'password'}
-          onChange={(event) => setFilled(event.target.value.length > 0)}
+          onChange={(event) => {
+            setFilled(event.target.value.length > 0);
+            return registration.onChange(event);
+          }}
         />
         {filled && (
           <button
