@@ -1,18 +1,13 @@
-# Messenger App
-UI implementation of the messaging app from the frontend challenge - login, feed, compose, filters, message item, and feed states at mobile and desktop breakpoints. All components hand-built, no component library. Data, auth, and actions are mocked; the app is intentionally non-functional per the brief.
+# Telex
+A small message board UI, built for the frontend challenge. UI only per the brief — data, auth, and actions are mocked, nothing needs to work. All components hand-built, no component library.
 
-## Prerequisites
-```
-node v24+
-```
+## Setup
 
-## Install Dependencies
+Requires Node 24+ and pnpm.
+
 ```
 pnpm install
+pnpm dev
 ```
 
-## Run Project
-```bash
-pnpm run dev
-```
-Open it on http://localhost:3000
+Open http://localhost:3000
