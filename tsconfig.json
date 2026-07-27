@@ -20,6 +20,7 @@
     ],
     "paths": {
       "@dispatch/atoms": ["./libs/lib-atoms/index.ts"],
+      "@dispatch/consts": ["./libs/lib-consts/index.ts"],
       "@dispatch/feats": ["./libs/lib-feats/index.ts"],
       "@dispatch/fields": ["./libs/lib-fields/index.ts"],
       "@dispatch/fonts": ["./libs/lib-fonts/index.ts"],

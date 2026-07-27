@@ -1,4 +1,5 @@
 import { AtomLogo } from '@dispatch/atoms';
+import { ConstMessageMaxLength } from '@dispatch/consts';
 import { ReactNode } from 'react';
 
 export function FeatAuthLayout(props: { children: ReactNode }) {
@@ -11,7 +12,7 @@ export function FeatAuthLayout(props: { children: ReactNode }) {
             <h1 className="text-[3.25rem] leading-[0.95] font-bold tracking-[-0.03em] lg:text-[5.5rem] lg:tracking-[-0.04em]">
               Say it in
               <br />
-              240.
+              {ConstMessageMaxLength}.
             </h1>
             <p className="mt-6 hidden max-w-95 text-[0.9375rem] leading-[1.6] lg:block">
               A short-message board for your team. Post, tag, filter, done.
