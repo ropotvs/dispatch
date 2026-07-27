@@ -6,7 +6,7 @@ export function AtomLabel(props: ComponentProps<'label'>) {
     <label
       {...props}
       className={clsx(
-        'block font-mono text-[11px] font-bold tracking-[0.08em] uppercase lg:text-xs',
+        'block font-mono text-[0.6875rem] font-bold tracking-[0.08em] uppercase lg:text-xs',
         props.className,
       )}
     />
