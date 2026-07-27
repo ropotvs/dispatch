@@ -10,6 +10,7 @@ import {
 export function AtomButton(props: {
   className?: string;
   disabled?: boolean;
+  color?: 'brand' | 'white';
   type?: 'button' | 'submit';
   children?: ReactNode;
   element?: ReactElement<ComponentProps<'button'>>;
@@ -19,7 +20,8 @@ export function AtomButton(props: {
     ...props.element?.props,
     children: props.children,
     className: clsx(
-      'border-ink bg-brand inline-flex h-13.5 cursor-pointer items-center justify-center gap-2 border-[3px] font-mono text-base font-bold shadow-[5px_5px_0_var(--color-ink)] lg:h-14 lg:tracking-[0.02em]',
+      'border-ink inline-flex h-13.5 cursor-pointer items-center justify-center gap-2 border-[3px] font-mono text-base font-bold shadow-[5px_5px_0_var(--color-ink)] lg:h-14 lg:tracking-[0.02em]',
+      { brand: 'bg-brand', white: 'bg-white' }[props.color ?? 'brand'],
       props.className,
     ),
     disabled: props.disabled,
