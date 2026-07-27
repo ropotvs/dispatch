@@ -3,6 +3,7 @@
 import { AtomButton } from '@dispatch/atoms';
 import { FeatAuthSubtitle, FeatAuthTitle } from '@dispatch/feats';
 import { FieldEmail, FieldPassword } from '@dispatch/fields';
+import { IconArrowRight } from '@dispatch/icons';
 import { useCallback } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -39,7 +40,7 @@ export function PageAuthLogin() {
             />
           </div>
           <AtomButton type="submit" className="mt-7 w-full lg:mt-8">
-            LOG IN →
+            LOG IN <IconArrowRight />
           </AtomButton>
         </form>
       </FormProvider>

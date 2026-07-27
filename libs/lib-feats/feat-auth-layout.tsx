@@ -6,7 +6,7 @@ export function FeatAuthLayout(props: { children: ReactNode }) {
     <div className="flex flex-1 flex-col bg-white lg:flex-row">
       <aside className="border-ink bg-brand flex flex-col border-b-[3px] px-7 pt-8 pb-10 lg:w-[43.06%] lg:max-w-155 lg:shrink-0 lg:border-r-[3px] lg:border-b-0 lg:p-14">
         <div className="mx-auto flex w-full max-w-95 flex-1 flex-col lg:mx-0 lg:max-w-none">
-          <AtomLogo className="text-[0.8125rem] lg:text-sm" />
+          <AtomLogo />
           <div className="mt-9 lg:my-auto">
             <h1 className="text-[3.25rem] leading-[0.95] font-bold tracking-[-0.03em] lg:text-[5.5rem] lg:tracking-[-0.04em]">
               Say it in
