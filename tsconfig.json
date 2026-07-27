@@ -19,6 +19,7 @@
       }
     ],
     "paths": {
+      "@dispatch/actions": ["./libs/lib-actions/index.ts"],
       "@dispatch/atoms": ["./libs/lib-atoms/index.ts"],
       "@dispatch/consts": ["./libs/lib-consts/index.ts"],
       "@dispatch/feats": ["./libs/lib-feats/index.ts"],
