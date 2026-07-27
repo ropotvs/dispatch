@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-mono: var(--font-space-mono);
+  --font-sans: var(--font-space-grotesk);
+}
+
+@theme {
+  --color-accent: #ea580c;
+  --color-brand: #ffe600;
+  --color-ink: #111111;
+  --color-muted: #57574f;
+  --color-paper: #e4e4de;
+}
