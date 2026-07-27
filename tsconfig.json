@@ -20,6 +20,7 @@
     ],
     "paths": {
       "@telex/atoms": ["./libs/lib-atoms/index.ts"],
+      "@telex/fonts": ["./libs/lib-fonts/index.ts"],
       "@telex/pages/*": ["./libs/lib-pages/*"]
     }
   },
