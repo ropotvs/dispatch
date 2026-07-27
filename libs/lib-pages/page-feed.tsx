@@ -1,3 +1,9 @@
+import { AtomLogo } from '@telex/atoms';
+
 export function PageFeed() {
-  return <>Feed</>;
+  return (
+    <>
+      <AtomLogo /> Feed
+    </>
+  );
 }
