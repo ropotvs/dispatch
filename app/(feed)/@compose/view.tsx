@@ -18,7 +18,6 @@ export function FeedComposeView() {
         startTransition(async () => {
           await actionMessageCreate({ tag: data.tag, text: data.text });
           router.push('/');
-          router.refresh();
         })
       }
     />
