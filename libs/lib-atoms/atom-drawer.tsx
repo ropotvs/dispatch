@@ -1,6 +1,6 @@
 'use client';
 
-import { useBodyScrollLock } from '@dispatch/hooks';
+import { useBodyScrollLock, useKeydown } from '@dispatch/hooks';
 import {
   cloneElement,
   MouseEventHandler,
@@ -16,6 +16,7 @@ export function AtomDrawer(props: {
   const [open, setOpen] = useState(false);
 
   useBodyScrollLock(open);
+  useKeydown(open, 'Escape', () => setOpen(false));
 
   return (
     <>

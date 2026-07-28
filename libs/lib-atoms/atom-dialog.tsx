@@ -1,6 +1,6 @@
 'use client';
 
-import { useBodyScrollLock } from '@dispatch/hooks';
+import { useBodyScrollLock, useKeydown } from '@dispatch/hooks';
 import { TypeAtomDialog } from '@dispatch/types';
 import {
   cloneElement,
@@ -28,6 +28,7 @@ export function AtomDialog({
   }));
 
   useBodyScrollLock(open);
+  useKeydown(open, 'Escape', () => setOpen(false));
 
   return (
     <>

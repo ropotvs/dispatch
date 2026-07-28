@@ -1,5 +1,6 @@
 'use client';
 
+import { useKeydown } from '@dispatch/hooks';
 import { clsx } from 'clsx';
 import {
   cloneElement,
@@ -15,6 +16,8 @@ export function AtomMenu(props: {
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+
+  useKeydown(open, 'Escape', () => setOpen(false));
 
   return (
     <div className="relative">
