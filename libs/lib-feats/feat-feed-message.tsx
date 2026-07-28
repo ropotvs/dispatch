@@ -59,7 +59,7 @@ export function FeatFeedMessage(props: {
           />
         </div>
       ) : (
-        <div className="mt-2.5 text-sm leading-[1.45] lg:mt-3.5 lg:text-base lg:leading-[1.5]">
+        <div className="mt-2.5 text-sm leading-[1.45] wrap-anywhere lg:mt-3.5 lg:text-base lg:leading-[1.5]">
           {props.message.text}
         </div>
       )}
