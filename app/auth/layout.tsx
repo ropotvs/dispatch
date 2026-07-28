@@ -1,6 +1,6 @@
-import { FeatAuthLayout } from '@dispatch/feats';
+import { PageAuth } from '@dispatch/pages/page-auth';
 import { ReactNode } from 'react';
 
 export default function AuthLayout(props: { children: ReactNode }) {
-  return <FeatAuthLayout>{props.children}</FeatAuthLayout>;
+  return <PageAuth>{props.children}</PageAuth>;
 }
