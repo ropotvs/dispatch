@@ -10,16 +10,13 @@ export function FeatFeedEmpty() {
         Nothing here yet
       </div>
       <div className="text-muted mt-2 text-xs leading-[1.6] lg:max-w-90 lg:text-sm">
-        No messages match this view. Post the first one
-        <span className="hidden lg:inline">
-          , or{' '}
-          <Link
-            className="hover:text-ink underline transition-colors duration-100"
-            href="/"
-          >
-            clear your filters
-          </Link>
-        </span>
+        No messages match this view. Post the first one, or{' '}
+        <Link
+          className="hover:text-ink underline transition-colors duration-100"
+          href="/"
+        >
+          clear your filters
+        </Link>
         .
       </div>
     </div>
