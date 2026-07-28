@@ -27,7 +27,6 @@
       "@dispatch/fields": ["./libs/lib-fields/index.ts"],
       "@dispatch/fonts": ["./libs/lib-fonts/index.ts"],
       "@dispatch/icons": ["./libs/lib-icons/index.ts"],
-      "@dispatch/mocks": ["./libs/lib-mocks/index.ts"],
       "@dispatch/pages/*": ["./libs/lib-pages/*"],
       "@dispatch/types": ["./libs/lib-types/index.ts"]
     }
