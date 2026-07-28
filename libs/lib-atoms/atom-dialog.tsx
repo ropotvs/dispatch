@@ -9,7 +9,7 @@ import {
   useState,
 } from 'react';
 
-export function AtomDrawer(props: {
+export function AtomDialog(props: {
   trigger: ReactElement<{ onClick?: MouseEventHandler<HTMLElement> }>;
   children: ReactNode;
 }) {
@@ -28,9 +28,14 @@ export function AtomDrawer(props: {
       )}
       {open && (
         <div
-          className="border-ink bg-paper fixed inset-x-0 bottom-0 z-40 border-t-[3px] p-5 pb-8"
+          aria-modal="true"
+          role="dialog"
+          className="border-ink fixed top-1/2 left-1/2 z-40 w-[calc(100%-2.5rem)] max-w-105 -translate-x-1/2 -translate-y-1/2 border-[3px] bg-white p-6 shadow-[8px_8px_0_var(--color-ink)] lg:p-7"
           onClick={(event) => {
-            if (event.target instanceof Element && event.target.closest('a')) {
+            if (
+              event.target instanceof Element &&
+              event.target.closest('a, button')
+            ) {
               setOpen(false);
             }
           }}
