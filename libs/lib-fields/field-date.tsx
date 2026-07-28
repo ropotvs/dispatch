@@ -1,6 +1,7 @@
 'use client';
 
 import { AtomField } from '@dispatch/atoms';
+import { IconCalendar } from '@dispatch/icons';
 import { TypeField, TypeFieldDate } from '@dispatch/types';
 import { clsx } from 'clsx';
 import { ReactNode, useId, useState } from 'react';
@@ -39,7 +40,7 @@ export function FieldDate<
           id={id}
           aria-label={props.placeholder}
           className={clsx(
-            'border-ink cursor-text bg-white outline-none [&::-webkit-calendar-picker-indicator]:cursor-pointer',
+            'border-ink cursor-text bg-white outline-none [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:top-1/2 [&::-webkit-calendar-picker-indicator]:right-4 [&::-webkit-calendar-picker-indicator]:size-4.5 [&::-webkit-calendar-picker-indicator]:-translate-y-1/2 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0',
             overlaid && 'text-transparent',
             props.className,
           )}
@@ -61,6 +62,9 @@ export function FieldDate<
             {props.placeholder}
           </span>
         )}
+        <span className="pointer-events-none absolute top-1/2 right-4 hidden -translate-y-1/2 supports-[selector(::-webkit-calendar-picker-indicator)]:block">
+          <IconCalendar />
+        </span>
       </div>
     </AtomField>
   );
