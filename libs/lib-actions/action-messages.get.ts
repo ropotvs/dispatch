@@ -53,6 +53,6 @@ export async function actionMessagesGet(props: {
     });
 
   return new Promise((resolve) =>
-    setTimeout(() => resolve({ count: filteredDbMessages.length, data }), 2000),
+    setTimeout(() => resolve({ count: filteredDbMessages.length, data }), 1000),
   );
 }
