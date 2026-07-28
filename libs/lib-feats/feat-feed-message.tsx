@@ -1,6 +1,6 @@
 import { AtomAvatar, AtomButton, AtomTag } from '@dispatch/atoms';
 import { EnumMessageTag } from '@dispatch/enums';
-import { formatDateRelative } from '@dispatch/formats';
+import { formatDateAbsolute, formatDateRelative } from '@dispatch/formats';
 import { TypeDtoMessage } from '@dispatch/types';
 
 export function FeatFeedMessage(props: {
@@ -30,7 +30,10 @@ export function FeatFeedMessage(props: {
             {props.message.author.handle}
           </div>
         </div>
-        <div className="text-muted text-[0.6875rem] lg:text-xs">
+        <div
+          className="text-muted text-[0.6875rem] lg:text-xs"
+          title={formatDateAbsolute(props.message.createdAt)}
+        >
           {formatDateRelative(props.message.createdAt)}
         </div>
       </div>
