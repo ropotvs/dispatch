@@ -21,6 +21,9 @@ export function FormMessageCreate(props: {
     name: 'text',
   });
 
+  const limitNear = formValueText.length >= ConstMessageMaxLength - 20;
+  const limitReached = formValueText.length >= ConstMessageMaxLength;
+
   return (
     <form
       className={clsx(
@@ -47,7 +50,13 @@ export function FormMessageCreate(props: {
           prefix={<span className="hidden lg:inline">TAG:</span>}
         />
         <div className="flex items-center gap-4">
-          <span className="text-muted hidden text-[0.8125rem] lg:inline">
+          <span
+            className={clsx(
+              'text-[0.8125rem]',
+              `${limitNear ? 'inline' : 'hidden lg:inline'}`,
+              `${limitReached ? 'text-error font-bold' : limitNear ? 'text-accent font-bold' : 'text-muted'}`,
+            )}
+          >
             {formValueText.length}/{ConstMessageMaxLength}
           </span>
           <AtomButton type="submit" size="sm">
