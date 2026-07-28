@@ -6,36 +6,28 @@ import { FeatFeedLoading } from '@dispatch/feats/feat-feed-loading';
 import { FeatFeedMessage } from '@dispatch/feats/feat-feed-message';
 import { useInView } from '@dispatch/hooks';
 import { IconArrowDown } from '@dispatch/icons';
-import { TypeDtoMessage, TypeDtoSession } from '@dispatch/types';
-import { useEffect } from 'react';
-import { useFeed } from '../context';
+import { TypeDtoSession } from '@dispatch/types';
+import { useFeed } from './context';
 
-export function FeedListView(props: {
-  count: number;
-  messages: TypeDtoMessage[];
-  session: TypeDtoSession;
-}) {
+export function FeedView(props: { session: TypeDtoSession }) {
   const feed = useFeed();
-
-  const sync = feed.sync;
-  useEffect(() => {
-    sync(props.messages, props.count);
-  }, [props.count, props.messages, sync]);
-
-  const messages = feed.messages ?? props.messages;
 
   const sentinelRef = useInView<HTMLDivElement>(
     feed.hasMore && !feed.loading,
     feed.loadMore,
   );
 
-  if (messages.length === 0 && !feed.hasMore) {
+  if (!feed.messages) {
+    return <FeatFeedLoading />;
+  }
+
+  if (feed.messages.length === 0) {
     return <FeatFeedEmpty />;
   }
 
   return (
     <>
-      {messages.map((message) => (
+      {feed.messages.map((message) => (
         <FeatFeedMessage
           activeTag={feed.filter.tag ?? undefined}
           isAuthor={message.author.id === props.session.id}
