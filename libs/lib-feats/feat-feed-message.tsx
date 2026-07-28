@@ -46,10 +46,10 @@ export function FeatFeedMessage(props: {
         </AtomTag>
         {props.isAuthor && (
           <div className="flex gap-1.5 lg:gap-2.5">
-            <AtomButton color="white" size="xs">
+            <AtomButton color="white" size="xs" variant="static">
               EDIT
             </AtomButton>
-            <AtomButton color="white" size="xs">
+            <AtomButton color="white" size="xs" variant="static">
               <span className="hidden lg:inline">DELETE</span>
               <span className="lg:hidden">DEL</span>
             </AtomButton>

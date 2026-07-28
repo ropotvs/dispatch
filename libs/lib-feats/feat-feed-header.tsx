@@ -3,6 +3,7 @@
 import {
   AtomAvatar,
   AtomBreakpoint,
+  AtomButton,
   AtomLogo,
   AtomMenu,
   AtomMenuItem,
@@ -29,13 +30,14 @@ export function FeatFeedHeader(props: { user: TypeDtoUser }) {
               />
               <span className="text-sm">{props.user.handle}</span>
             </div>
-            <button
-              className="border-ink flex h-10 cursor-pointer items-center border-[2.5px] bg-white px-4 font-mono text-[0.8125rem] font-bold"
-              type="button"
+            <AtomButton
+              color="white"
+              size="sm"
+              variant="static"
               onClick={() => dialog.current?.open()}
             >
               LOG OUT
-            </button>
+            </AtomButton>
           </div>
         }
         mobile={
