@@ -18,7 +18,7 @@ export function AtomField(props: {
       )}
       {props.children}
       {props.error && (
-        <p className="text-error font-mono text-[0.6875rem] font-bold tracking-[0.08em] uppercase lg:text-xs">
+        <p className="text-error font-mono text-[0.625rem] font-bold tracking-[0.08em] uppercase">
           {props.error}
         </p>
       )}
