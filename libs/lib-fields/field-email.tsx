@@ -1,7 +1,7 @@
 'use client';
 
 import { AtomInput } from '@dispatch/atoms';
-import { TypeField } from '@dispatch/types';
+import { TypeField, TypeFieldEmail } from '@dispatch/types';
 import { ReactNode } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Field } from './field';
@@ -12,7 +12,7 @@ export function FieldEmail(
     placeholder?: string;
   },
 ) {
-  const form = useFormContext();
+  const form = useFormContext<Record<string, TypeFieldEmail>>();
 
   return (
     <Field label={props.label}>

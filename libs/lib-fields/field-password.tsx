@@ -2,7 +2,7 @@
 
 import { AtomInput } from '@dispatch/atoms';
 import { IconEye, IconEyeOff } from '@dispatch/icons';
-import { TypeField } from '@dispatch/types';
+import { TypeField, TypeFieldPassword } from '@dispatch/types';
 import { clsx } from 'clsx';
 import { ReactNode, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -15,7 +15,7 @@ export function FieldPassword(
     autocomplete?: 'current-password' | 'new-password';
   },
 ) {
-  const form = useFormContext();
+  const form = useFormContext<Record<string, TypeFieldPassword>>();
   const registration = form.register(props.name);
   const [filled, setFilled] = useState(false);
   const [revealed, setRevealed] = useState(false);
