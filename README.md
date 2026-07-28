@@ -1,6 +1,6 @@
 # Dispatch
 
-A small message board UI, built for the frontend challenge. UI only per the brief — data, auth, and actions are mocked, nothing needs to work. All components hand-built, no component library.
+A small message board, built for the frontend challenge. The brief asks for UI only — mocking is fine, nothing needs to work — but everything here works anyway: real login with sessions, a JSON-file database, posts, edits, and deletes that persist. All components hand-built, no component library.
 
 ## Setup
 
@@ -33,7 +33,7 @@ All built at mobile (390) and desktop (1440) breakpoints, matched against the de
 - Next.js (App Router) + TypeScript + Tailwind v4; the feed fetches its data through server actions with a fake 1-second latency, so every load exercises the real skeleton state
 - Design's base font is Space Grotesk with Space Mono for UI accents (kicker, labels, buttons) — both self-hosted via next/font
 - Logo is a generated SVG lockup (real Space Mono glyph outlines), so it never flashes during font load
-- The filter bar is one react-hook-form form whose value round-trips through the URL: emit → `?filters=` JSON param → server parse → form re-sync; empty values are stripped from the URL and clear is just `form.reset()` — the one deliberate step past "not functional", since the design's own mock copy describes exactly that behavior
+- The filter bar is one react-hook-form form whose value round-trips through the URL: emit → `?filters=` JSON param → the feed context parses it back → form re-sync; empty values are stripped from the URL and clear is just `form.reset()` — bookmarkable filters, exactly as the design's own mock copy promises
 - Compose and filters are parallel route slots (`@compose`, `@filters`) — layout-level regions server-composed by the app while the layout persists across navigations; the message list re-fetches client-side when the filter in the URL changes
 - Desktop/mobile DOM variants (filter sidebar vs drawer, header user area) switch through one `AtomBreakpoint` atom — SSR renders both gated by CSS so first paint is always correct, then hydration collapses to a single variant; no flicker, no permanent double DOM
 - Light interactivity where it sells the UI: char counter, tag dropdown, password reveal, message chips highlight the active filter tag, body scroll locks under dialogs and drawers
