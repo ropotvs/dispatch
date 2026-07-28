@@ -1,1 +1,1 @@
-export * from './hook-media-query';
+export * from './use-media-query';

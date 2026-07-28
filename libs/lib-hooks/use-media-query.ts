@@ -5,7 +5,7 @@ import { useCallback, useSyncExternalStore } from 'react';
 export function useMediaQuery(query: string): boolean {
   const subscribe = useCallback(
     (onChange: () => void) => {
-      const list = window.matchMedia(query);
+      const list = window.matchMedia(resolveQuery(query));
       list.addEventListener('change', onChange);
       return () => list.removeEventListener('change', onChange);
     },
@@ -14,7 +14,13 @@ export function useMediaQuery(query: string): boolean {
 
   return useSyncExternalStore(
     subscribe,
-    () => window.matchMedia(query).matches,
+    () => window.matchMedia(resolveQuery(query)).matches,
     () => false,
+  );
+}
+
+function resolveQuery(query: string): string {
+  return query.replace(/var\((--[\w-]+)\)/g, (match, name: string) =>
+    getComputedStyle(document.documentElement).getPropertyValue(name).trim(),
   );
 }
