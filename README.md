@@ -20,7 +20,7 @@ All built at mobile (390) and desktop (1440) breakpoints, matched against the de
 - `/auth/login` — login form with field validation (required fields, email format — error borders and messages); submitting navigates to the feed
 - `/` — message feed from mock data (compose with 240-char counter and tag selector, filter bar, message items)
 - Compose — posting works for real: a server action persists the message and the route refreshes to show it at the top of the feed (POST disables while in flight, the form clears)
-- Message item — author-only affordances that work: inline edit (text and tag, with counter and validation) and delete-with-confirmation both persist through server actions, then apply to the list without a refetch
+- Message item — author-only affordances that work: inline edit (text and tag, with counter and validation) and delete-with-confirmation both persist through server actions; changes apply to the list instantly, then the loaded window re-syncs from the server in the background (deletions shift the pages, and a tag edit can drop a message out of a filtered view)
 - Pagination — LOAD MORE button on desktop appends the next page and hides itself on the last one; on mobile it becomes infinite scroll with a skeleton card while fetching
 - Filters — tag chips, user select, and date range, all filtering server-side through a single JSON URL param (`/?filters={"tag":"DESIGN"}`), so any view is bookmarkable — as Ada's mock message promises; on mobile the chips scroll inline and the rest opens from a bottom drawer
 - Loading state — skeleton cards stream into the list area while the fake 2s fetch resolves (header, compose, and filters stay interactive); visible on every load and every filter change
