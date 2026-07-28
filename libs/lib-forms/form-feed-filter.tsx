@@ -34,7 +34,7 @@ export function FormFeedFilter(props: {
 
   if (isDesktop) {
     return (
-      <aside className="col-start-1 row-span-2 row-start-1 flex flex-col gap-6">
+      <aside className="flex flex-col gap-6">
         <FormFeedFilterHeader onClear={() => form.reset()} />
         <FormFeedFilterTag
           className="flex flex-wrap gap-2"
@@ -48,7 +48,7 @@ export function FormFeedFilter(props: {
   }
 
   return (
-    <div className="order-2 flex items-center gap-2">
+    <div className="flex items-center gap-2">
       <div className="min-w-0 flex-1">
         <FormFeedFilterTag
           className="-m-1 flex scrollbar-none gap-2 overflow-x-auto p-1"
