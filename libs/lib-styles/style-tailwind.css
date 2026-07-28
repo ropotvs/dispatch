@@ -6,9 +6,13 @@
 }
 
 @theme {
+  --breakpoint-lg: 64rem;
+
   --color-accent: #ea580c;
   --color-brand: #ffe600;
+  --color-error: #dc2626;
   --color-ink: #111111;
   --color-muted: #57574f;
   --color-paper: #e4e4de;
+  --color-placeholder: #9a9a94;
 }
