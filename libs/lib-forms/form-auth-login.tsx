@@ -25,6 +25,10 @@ export function FormAuthLogin(props: {
         label="Email"
         name="email"
         placeholder="ada@dispatch.dev"
+        rules={{
+          required: 'Email is required',
+          pattern: { message: 'Enter a valid email', value: /^\S+@\S+\.\S+$/ },
+        }}
       />
       <div className="mt-4.5 lg:mt-5">
         <FieldPassword
@@ -33,6 +37,7 @@ export function FormAuthLogin(props: {
           name="password"
           placeholder="••••••••"
           autocomplete="current-password"
+          rules={{ required: 'Password is required' }}
         />
       </div>
       <AtomButton type="submit" className="mt-7 w-full lg:mt-8">
