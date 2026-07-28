@@ -1,8 +1,4 @@
-import {
-  actionMessagesGet,
-  actionUsersGet,
-  actionUsersMeGet,
-} from '@dispatch/actions';
+import { actionMessagesGet, actionUsersMeGet } from '@dispatch/actions';
 import { mapObjectFromQuery } from '@dispatch/maps';
 import { PageFeedEmpty } from '@dispatch/pages/page-feed-empty';
 import { PageFeedLoaded } from '@dispatch/pages/page-feed-loaded';
@@ -16,17 +12,17 @@ export default async function FeedPage(props: {
   searchParams: Promise<{ filters?: string }>;
 }) {
   const params = await props.searchParams;
-  const users = await actionUsersGet();
   const filters = mapObjectFromQuery<TypeFormFeedFilter>(params.filters);
-  const activeUser = users.find((user) => user.id === filters.userId);
 
   return (
     <Suspense key={JSON.stringify(filters)} fallback={<PageFeedLoading />}>
       {(async () => {
         const user = await actionUsersMeGet();
         const messages = await actionMessagesGet({
+          filterDateFrom: filters.dateFrom || undefined,
+          filterDateTo: filters.dateTo || undefined,
           filterTag: filters.tag || undefined,
-          filterUserId: activeUser?.id,
+          filterUserId: filters.userId || undefined,
         });
 
         if (messages.length === 0) {
