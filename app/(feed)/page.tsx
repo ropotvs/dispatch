@@ -1,10 +1,10 @@
 import { actionMessagesGet, actionUsersMeGet } from '@dispatch/actions';
+import { ConstMessagesPageSize } from '@dispatch/consts';
 import { mapObjectFromQuery } from '@dispatch/maps';
-import { PageFeedEmpty } from '@dispatch/pages/page-feed-empty';
-import { PageFeedLoaded } from '@dispatch/pages/page-feed-loaded';
 import { PageFeedLoading } from '@dispatch/pages/page-feed-loading';
 import { TypeFormFeedFilter } from '@dispatch/types';
 import { Suspense } from 'react';
+import { FeedListView } from './@list/view';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,27 +13,25 @@ export default async function FeedPage(props: {
 }) {
   const params = await props.searchParams;
   const user = await actionUsersMeGet();
-  const filters = mapObjectFromQuery<TypeFormFeedFilter>(params.filters);
+  const filter = mapObjectFromQuery<TypeFormFeedFilter>(params.filters);
 
   return (
-    <Suspense key={JSON.stringify(filters)} fallback={<PageFeedLoading />}>
+    <Suspense key={JSON.stringify(filter)} fallback={<PageFeedLoading />}>
       {(async () => {
         const messages = await actionMessagesGet({
-          filterDateFrom: filters.dateFrom || undefined,
-          filterDateTo: filters.dateTo || undefined,
-          filterTag: filters.tag || undefined,
-          filterUserId: filters.userId || undefined,
+          filterDateFrom: filter.dateFrom || undefined,
+          filterDateTo: filter.dateTo || undefined,
+          filterTag: filter.tag || undefined,
+          filterUserId: filter.userId || undefined,
+          pageIndex: 0,
+          pageSize: ConstMessagesPageSize,
         });
-
-        if (messages.length === 0) {
-          return <PageFeedEmpty />;
-        }
-
         return (
-          <PageFeedLoaded
-            activeTag={filters.tag || undefined}
+          <FeedListView
+            count={messages.count}
+            messages={messages.data}
+            filter={filter}
             user={user}
-            messages={messages}
           />
         );
       })()}

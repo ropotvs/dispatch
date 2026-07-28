@@ -1,5 +1,8 @@
+import { actionUsersMeGet } from '@dispatch/actions';
 import { FeedComposeView } from './view';
 
 export default async function FeedComposePage() {
-  return <FeedComposeView />;
+  const user = await actionUsersMeGet();
+
+  return <FeedComposeView user={user} />;
 }

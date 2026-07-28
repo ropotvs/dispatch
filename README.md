@@ -18,7 +18,10 @@ Open http://localhost:3000
 All built at mobile (390) and desktop (1440) breakpoints, matched against the design frames:
 
 - `/auth/login` — login form with field validation (required fields, email format — error borders and messages); submitting navigates to the feed
-- `/` — message feed from mock data (compose with 240-char counter and tag selector, filter bar, message items with author-only EDIT/DELETE, LOAD MORE control)
+- `/` — message feed from mock data (compose with 240-char counter and tag selector, filter bar, message items)
+- Compose — posting works: the new message lands at the top of the feed with author affordances, and the form clears; a shared client context owns the message list, bridging the compose slot and the list
+- Message item — author-only affordances that work: inline edit (text and tag, with counter and validation) applies optimistically, delete asks for confirmation first; creation, edits, and deletes all log the intended mutation and mark persistence as out of scope
+- Pagination — LOAD MORE button on desktop appends the next page and hides itself on the last one; on mobile it becomes infinite scroll with a skeleton card while fetching
 - Filters — tag chips, user select, and date range, all filtering server-side through a single JSON URL param (`/?filters={"tag":"DESIGN"}`), so any view is bookmarkable — as Ada's mock message promises; on mobile the chips scroll inline and the rest opens from a bottom drawer
 - Loading state — skeleton cards stream into the list area while the fake 2s fetch resolves (header, compose, and filters stay interactive); visible on every load and every filter change
 - Empty state — reachable naturally at `/?filters={"tag":"RANDOM"}` (no mock messages carry that tag)
@@ -40,7 +43,8 @@ All built at mobile (390) and desktop (1440) breakpoints, matched against the de
 - Feed screens render full-bleed; the design frames' outer border/shadow is treated as artboard chrome
 - Node's gzip buffers streamed responses in Safari, hiding the skeletons until the stream completes — compression is off (`compress: false`) in favor of correct streaming everywhere; a real deployment would compress at the CDN/proxy layer instead
 - Ada (@ada_l) is the mock current user: yellow avatar, edit/delete affordances on her message only
-- `TODO (out of scope)` comments mark the deliberate boundaries — real auth, message creation, LOAD MORE pagination
+- Message create/edit/delete and pagination are optimistic scaffolding: a feed context owns the message array in client state (seeded from each server-fetched page), pages come from the fake API (3 per page, with a total count driving "load more" visibility) — the pieces a real backend would slot into
+- `TODO (out of scope)` comments mark the deliberate boundaries — real auth, persisting creations, edits, and deletes
 
 ## Architecture
 
@@ -51,12 +55,12 @@ Everything in `libs/` is dumb: components render from props (plus their own UI s
 | `lib-atoms`   | Dumb primitives — button, input, field chrome, avatar, tag, menu, drawer, dialog, breakpoint switch, logo, skeleton |
 | `lib-icons`   | Hand-drawn SVG icons                                                                   |
 | `lib-fields`  | Form controls wired to react-hook-form — email, password (reveal), select, tag picker, date |
-| `lib-forms`   | Assembled forms — login (validation rules), compose, feed filter (URL-synced)          |
+| `lib-forms`   | Assembled forms — login (validation rules), compose, message update, feed filter (URL-synced) |
 | `lib-feats`   | Feature components — header (avatar menu, logout), message item, feed states           |
-| `lib-dialogs` | Dialog compositions — logout confirmation                                              |
+| `lib-dialogs` | Dialog compositions — logout and message-delete confirmations                          |
 | `lib-pages`   | Route-level views and shells, composed by `app/`                                       |
 | `lib-actions` | The fake API — seeded users/messages, fake latency, filters (tag, user, dates), paging |
-| `lib-hooks`   | `useMediaQuery`, `useIsHydrated`, `useBodyScrollLock`, `useKeydown`                    |
+| `lib-hooks`   | `useMediaQuery`, `useIsHydrated`, `useBodyScrollLock`, `useKeydown`, `useInView`     |
 | `lib-maps`    | Query-param serialization — object ⇄ URL query value                                   |
 | `lib-formats` | Display formatting — relative and absolute dates                                       |
 | `lib-enums`   | Message tags                                                                           |
@@ -68,10 +72,10 @@ Everything in `libs/` is dumb: components render from props (plus their own UI s
 Dependencies point strictly downward; leaves import nothing:
 
 ```
-app      → pages, forms, actions, maps, fonts, enums, types
-pages    → forms, feats, atoms, icons, enums, consts, types
+app      → pages, feats, forms, atoms, actions, hooks, maps, icons, fonts, consts, enums, types
+pages    → feats, forms, atoms, icons, enums, consts, types
+feats    → forms, dialogs, atoms, formats, hooks, enums, types
 forms    → fields, atoms, icons, enums, consts, types
-feats    → dialogs, atoms, formats, enums, types
 dialogs  → atoms, types
 fields   → atoms, icons, types
 atoms    → hooks, types

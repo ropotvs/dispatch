@@ -4,16 +4,16 @@ import { AtomButton } from '@dispatch/atoms';
 import { ConstMessageMaxLength } from '@dispatch/consts';
 import { EnumMessageTag } from '@dispatch/enums';
 import { FieldSelect } from '@dispatch/fields';
-import { TypeFormMessageCreate } from '@dispatch/types';
+import { TypeFormMessageUpdate } from '@dispatch/types';
 import { clsx } from 'clsx';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 
-export function FormMessageCreate(props: {
-  className?: string;
-  defaults: TypeFormMessageCreate;
-  onSubmit: SubmitHandler<TypeFormMessageCreate>;
+export function FormMessageUpdate(props: {
+  defaults: TypeFormMessageUpdate;
+  onCancel: () => void;
+  onSubmit: SubmitHandler<TypeFormMessageUpdate>;
 }) {
-  const form = useForm<TypeFormMessageCreate>({
+  const form = useForm<TypeFormMessageUpdate>({
     defaultValues: props.defaults,
   });
   const formValueText = useWatch({
@@ -25,23 +25,14 @@ export function FormMessageCreate(props: {
   const limitReached = formValueText.length >= ConstMessageMaxLength;
 
   return (
-    <form
-      className={clsx(
-        'border-ink border-[3px] bg-white p-3.5 shadow-[4px_4px_0_var(--color-ink)] lg:p-4.5 lg:shadow-[6px_6px_0_var(--color-ink)]',
-        props.className,
-      )}
-      onSubmit={form.handleSubmit((data, event) => {
-        props.onSubmit(data, event);
-        form.reset();
-      })}
-    >
+    <form onSubmit={form.handleSubmit(props.onSubmit)}>
       <textarea
         {...form.register('text', { required: true })}
-        className="placeholder:text-placeholder block field-sizing-content max-h-40 min-h-10 w-full resize-none text-[0.9375rem] wrap-anywhere outline-none lg:min-h-16 lg:text-base"
+        autoFocus
+        className="border-ink focus:outline-ink block field-sizing-content max-h-40 min-h-16 w-full resize-none border-2 p-2.5 text-sm leading-[1.45] wrap-anywhere focus:outline-2 focus:outline-offset-2 lg:text-base lg:leading-[1.5]"
         maxLength={ConstMessageMaxLength}
-        placeholder="What's happening?"
       />
-      <div className="mt-2.5 flex items-center justify-between lg:mt-1.5 lg:border-t-2 lg:border-[#eeeeee] lg:pt-3.5">
+      <div className="mt-2.5 flex items-center justify-between">
         <FieldSelect
           className="h-8 gap-1.5 border-2 px-2 font-mono text-[0.6875rem] font-bold lg:h-9.5 lg:px-3 lg:text-xs"
           control={form.control}
@@ -55,16 +46,29 @@ export function FormMessageCreate(props: {
         <div className="flex items-center gap-4">
           <span
             className={clsx(
-              'text-[0.8125rem]',
-              `${limitNear ? 'inline' : 'hidden lg:inline'}`,
-              `${limitReached ? 'text-error font-bold' : limitNear ? 'text-accent font-bold' : 'text-muted'}`,
+              'hidden text-[0.8125rem] lg:inline',
+              limitReached
+                ? 'text-error font-bold'
+                : limitNear
+                  ? 'text-accent font-bold'
+                  : 'text-muted',
             )}
           >
             {formValueText.length}/{ConstMessageMaxLength}
           </span>
-          <AtomButton type="submit" size="sm">
-            POST
-          </AtomButton>
+          <div className="flex gap-1.5 lg:gap-2.5">
+            <AtomButton
+              color="white"
+              size="xs"
+              variant="static"
+              onClick={props.onCancel}
+            >
+              CANCEL
+            </AtomButton>
+            <AtomButton size="xs" type="submit" variant="static">
+              SAVE
+            </AtomButton>
+          </div>
         </div>
       </div>
     </form>
