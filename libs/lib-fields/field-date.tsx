@@ -1,8 +1,9 @@
 'use client';
 
+import { AtomField } from '@dispatch/atoms';
 import { TypeField, TypeFieldDate } from '@dispatch/types';
 import { clsx } from 'clsx';
-import { useState } from 'react';
+import { ReactNode, useId, useState } from 'react';
 import { FieldPathByValue, FieldValues, useController } from 'react-hook-form';
 
 export function FieldDate<
@@ -11,9 +12,11 @@ export function FieldDate<
 >(
   props: TypeField<TValues, TypeFieldDate, TName> & {
     className?: string;
+    label?: ReactNode;
     placeholder?: string;
   },
 ) {
+  const id = useId();
   const [focused, setFocused] = useState(false);
 
   const controller = useController({
@@ -25,33 +28,40 @@ export function FieldDate<
   const overlaid = !controller.field.value && !focused;
 
   return (
-    <div className="relative">
-      <input
-        {...controller.field}
-        aria-label={props.placeholder}
-        className={clsx(
-          'border-ink cursor-text bg-white outline-none [&::-webkit-calendar-picker-indicator]:cursor-pointer',
-          overlaid && 'text-transparent',
-          props.className,
-        )}
-        type="date"
-        value={controller.field.value ?? ''}
-        onFocus={() => setFocused(true)}
-        onBlur={() => {
-          setFocused(false);
-          controller.field.onBlur();
-        }}
-      />
-      {overlaid && (
-        <span
+    <AtomField
+      error={controller.fieldState.error?.message}
+      label={props.label}
+      labelFor={id}
+    >
+      <div className="relative">
+        <input
+          {...controller.field}
+          id={id}
+          aria-label={props.placeholder}
           className={clsx(
-            'text-placeholder pointer-events-none absolute inset-0 flex items-center border-transparent',
+            'border-ink cursor-text bg-white outline-none [&::-webkit-calendar-picker-indicator]:cursor-pointer',
+            overlaid && 'text-transparent',
             props.className,
           )}
-        >
-          {props.placeholder}
-        </span>
-      )}
-    </div>
+          type="date"
+          value={controller.field.value ?? ''}
+          onFocus={() => setFocused(true)}
+          onBlur={() => {
+            setFocused(false);
+            controller.field.onBlur();
+          }}
+        />
+        {overlaid && (
+          <span
+            className={clsx(
+              'text-placeholder pointer-events-none absolute inset-0 flex items-center border-transparent',
+              props.className,
+            )}
+          >
+            {props.placeholder}
+          </span>
+        )}
+      </div>
+    </AtomField>
   );
 }
