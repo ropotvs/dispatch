@@ -6,7 +6,7 @@ import { TypeDtoMessage, TypeDtoUser } from '@dispatch/types';
 
 export function PageFeedLoaded(props: {
   activeTag?: EnumMessageTag;
-  currentUser: TypeDtoUser;
+  user: TypeDtoUser;
   messages: TypeDtoMessage[];
 }) {
   return (
@@ -14,7 +14,7 @@ export function PageFeedLoaded(props: {
       {props.messages.map((message) => (
         <FeatFeedMessage
           activeTag={props.activeTag}
-          isAuthor={message.author.id === props.currentUser.id}
+          isAuthor={message.author.id === props.user.id}
           key={message.id}
           message={message}
         />
