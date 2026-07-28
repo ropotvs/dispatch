@@ -1,0 +1,150 @@
+'use client';
+
+import { AtomDrawer } from '@dispatch/atoms';
+import { EnumMessageTag } from '@dispatch/enums';
+import { FieldDate, FieldSelect, FieldTag } from '@dispatch/fields';
+import { useMediaQuery } from '@dispatch/hooks';
+import { IconGear } from '@dispatch/icons';
+import { TypeDtoUser, TypeFormFeedFilter } from '@dispatch/types';
+import { ReactNode, useEffect } from 'react';
+import { Control, useForm } from 'react-hook-form';
+
+export function FormFeedFilter(props: {
+  users: TypeDtoUser[];
+  value: TypeFormFeedFilter;
+  valueChange: (value: TypeFormFeedFilter) => void;
+}) {
+  const isDesktop = useMediaQuery('(min-width: var(--breakpoint-lg))');
+  const form = useForm<TypeFormFeedFilter>({
+    defaultValues: { dateFrom: '', dateTo: '', tag: null, userId: null },
+    resetOptions: { keepDefaultValues: true },
+    values: props.value,
+  });
+
+  useEffect(() => {
+    return form.subscribe({
+      formState: { values: true },
+      callback: (data) => {
+        if (JSON.stringify(data.values) !== JSON.stringify(props.value)) {
+          props.valueChange(data.values);
+        }
+      },
+    });
+  });
+
+  if (isDesktop) {
+    return (
+      <aside className="col-start-1 row-span-2 row-start-1 flex flex-col gap-6">
+        <FormFeedFilterHeader onClear={() => form.reset()} />
+        <FormFeedFilterTag
+          className="flex flex-wrap gap-2"
+          control={form.control}
+          label="Tag"
+        />
+        <FormFeedFilterUser control={form.control} users={props.users} />
+        <FormFeedFilterDate control={form.control} />
+      </aside>
+    );
+  }
+
+  return (
+    <div className="order-2 flex items-center gap-2">
+      <div className="min-w-0 flex-1">
+        <FormFeedFilterTag
+          className="-m-1 flex scrollbar-none gap-2 overflow-x-auto p-1"
+          control={form.control}
+        />
+      </div>
+      <AtomDrawer
+        trigger={
+          <button
+            className="border-ink flex h-8 w-9 shrink-0 cursor-pointer items-center justify-center border-[2.5px] bg-white"
+            type="button"
+          >
+            <IconGear />
+          </button>
+        }
+      >
+        <div className="flex flex-col gap-6">
+          <FormFeedFilterHeader onClear={() => form.reset()} />
+          <FormFeedFilterUser control={form.control} users={props.users} />
+          <FormFeedFilterDate control={form.control} />
+        </div>
+      </AtomDrawer>
+    </div>
+  );
+}
+
+function FormFeedFilterHeader(props: { onClear: () => void }) {
+  return (
+    <div className="flex items-center justify-between">
+      <div className="font-mono text-[0.8125rem] font-bold tracking-widest">
+        FILTERS
+      </div>
+      <button
+        type="button"
+        className="text-muted cursor-pointer text-xs underline"
+        onClick={props.onClear}
+      >
+        clear
+      </button>
+    </div>
+  );
+}
+
+function FormFeedFilterTag(props: {
+  className?: string;
+  control: Control<TypeFormFeedFilter>;
+  label?: ReactNode;
+}) {
+  return (
+    <FieldTag
+      className={props.className}
+      control={props.control}
+      label={props.label}
+      name="tag"
+      options={Object.values(EnumMessageTag).map((tag) => ({
+        label: tag,
+        value: tag,
+      }))}
+    />
+  );
+}
+
+function FormFeedFilterUser(props: {
+  control: Control<TypeFormFeedFilter>;
+  users: TypeDtoUser[];
+}) {
+  return (
+    <FieldSelect
+      label="User"
+      className="h-11.5 w-full justify-between border-[2.5px] px-3 text-sm"
+      control={props.control}
+      name="userId"
+      options={[
+        { label: 'All users', value: null },
+        ...props.users.map((user) => ({ label: user.name, value: user.id })),
+      ]}
+    />
+  );
+}
+
+function FormFeedFilterDate(props: { control: Control<TypeFormFeedFilter> }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <FieldDate
+        className="h-11.5 w-full border-[2.5px] px-3 text-sm"
+        control={props.control}
+        name="dateFrom"
+        placeholder="From"
+        label="Date"
+      />
+      <FieldDate
+        className="h-11.5 w-full border-[2.5px] px-3 text-sm"
+        control={props.control}
+        name="dateTo"
+        placeholder="To"
+      />
+    </div>
+  );
+}
