@@ -17,15 +17,15 @@ Open http://localhost:3000
 
 All built at mobile (390) and desktop (1440) breakpoints, matched against the design frames:
 
-- `/auth/login` — login form with field validation (required fields, email format — error borders and messages); submitting navigates to the feed
+- `/auth/login` — real login: credentials are checked against the users table and the session is stored in an httpOnly cookie; the feed redirects here when there is no session; wrong credentials show a form error, field validation covers the rest (required fields, email format). Demo accounts: `ada@dispatch.dev`, `marco@dispatch.dev`, `priya@dispatch.dev` — password `dispatch` for all (stored in plain text in `db/users.json` on purpose, so testing is easy; a real app would hash them)
 - `/` — message feed from mock data (compose with 240-char counter and tag selector, filter bar, message items)
 - Compose — posting works for real: a server action persists the message and the route refreshes to show it at the top of the feed (POST disables while in flight, the form clears)
-- Message item — author-only affordances that work: inline edit (text and tag, with counter and validation) and delete-with-confirmation both persist through server actions; changes apply to the list instantly, then the loaded window re-syncs from the server in the background (deletions shift the pages, and a tag edit can drop a message out of a filtered view)
+- Message item — author-only affordances that work: inline edit (text and tag, with counter and validation) and delete-with-confirmation both persist through server actions, and the server enforces it too (mutations reject missing sessions and non-author edits/deletes); changes apply to the list instantly, then the loaded window re-syncs from the server in the background (deletions shift the pages, and a tag edit can drop a message out of a filtered view)
 - Pagination — LOAD MORE button on desktop appends the next page and hides itself on the last one; on mobile it becomes infinite scroll with a skeleton card while fetching
 - Filters — tag chips, user select, and date range, all filtering server-side through a single JSON URL param (`/?filters={"tag":"DESIGN"}`), so any view is bookmarkable — as Ada's mock message promises; on mobile the chips scroll inline and the rest opens from a bottom drawer
 - Loading state — skeleton cards stream into the list area while the fake 2s fetch resolves (header, compose, and filters stay interactive); visible on every load and every filter change
 - Empty state — reachable naturally at `/?filters={"tag":"RANDOM"}` (no mock messages carry that tag)
-- Log out — confirmation dialog, opened from the header button on desktop or the avatar menu on mobile
+- Log out — confirmation dialog, opened from the header button on desktop or the avatar menu on mobile; confirming clears the session cookie
 - Any unknown URL — branded 404 (improvised, no design frame provided)
 
 ## Decisions
@@ -42,10 +42,10 @@ All built at mobile (390) and desktop (1440) breakpoints, matched against the de
 - react-hook-form everywhere, headless (login, compose, filter bar) — it renders nothing, so components stay hand-built
 - Feed screens render full-bleed; the design frames' outer border/shadow is treated as artboard chrome
 - Node's gzip buffers streamed responses in Safari, hiding the skeletons until the stream completes — compression is off (`compress: false`) in favor of correct streaming everywhere; a real deployment would compress at the CDN/proxy layer instead
-- Ada (@ada_l) is the mock current user: yellow avatar, edit/delete affordances on her message only
+- The signed-in user drives the UI: yellow avatar and handle in the header, edit/delete affordances only on own messages — log in as @marco to edit Marco's posts; the feed is session-guarded, so opening it while signed out redirects to the login screen
 - Content actually persists: `lib-db` is a tiny JSON-file database — `db/messages.json` and `db/users.json` are committed and hold the data itself, and every read and write goes straight to disk, so the feed survives reloads and restarts; messages store only an `authorId` and the fetch action joins the author from the users table into the DTO
 - Pagination is server-truth: pages come 3 at a time with a total count, and `pageCount * pageSize < count` decides "load more" — the list view keeps the loaded pages in props-synced client state and resets whenever the server sends a fresh first page
-- `TODO (out of scope)` comments mark the deliberate boundaries — real auth and a real database (the JSON file stands in)
+- Deliberate boundaries: the JSON files stand in for a real database, and auth stays demo-grade — plain-text passwords, an unsigned session-snapshot cookie, no hashing or session expiry — so everything is easy to inspect and poke at
 
 ## Architecture
 
@@ -60,7 +60,7 @@ Everything in `libs/` is dumb: components render from props (plus their own UI s
 | `lib-feats`   | Feature components — header (avatar menu, logout), message item, feed states                                        |
 | `lib-dialogs` | Dialog compositions — logout and message-delete confirmations                                                       |
 | `lib-pages`   | Route-level views and shells, composed by `app/`                                                                    |
-| `lib-actions` | Server actions — message list (filters, paging, author join, fake latency), create/update/delete, users             |
+| `lib-actions` | Server actions — message list (filters, paging, author join, fake latency), create/update/delete, users, auth (cookie session login/logout) |
 | `lib-db`      | JSON-file database — `connect(table)` factory returning per-table read/write, straight to disk                      |
 | `lib-hooks`   | `useMediaQuery`, `useIsHydrated`, `useBodyScrollLock`, `useKeydown`, `useInView`, `useStateWithProps`               |
 | `lib-maps`    | Query-param serialization — object ⇄ URL query value                                                                |

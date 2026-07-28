@@ -3,6 +3,7 @@
 import { DbMessages, DbUsers } from '@dispatch/db';
 import { EnumMessageTag } from '@dispatch/enums';
 import { TypeDtoMessage } from '@dispatch/types';
+import { actionSessionGet } from './action-session.get';
 
 export async function actionMessagesGet(props: {
   filterDateFrom?: string;
@@ -12,6 +13,11 @@ export async function actionMessagesGet(props: {
   pageIndex?: number;
   pageSize?: number;
 }): Promise<{ count: number; data: TypeDtoMessage[] }> {
+  const session = await actionSessionGet();
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+
   const messages = await DbMessages.read();
   const users = await DbUsers.read();
 

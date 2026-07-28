@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 export function FormAuthLogin(props: {
   className?: string;
   defaults: TypeFormAuthLogin;
+  error?: string;
   onSubmit: SubmitHandler<TypeFormAuthLogin>;
 }) {
   const form = useForm<TypeFormAuthLogin>({
@@ -40,6 +41,11 @@ export function FormAuthLogin(props: {
           rules={{ required: 'Password is required' }}
         />
       </div>
+      {props.error && (
+        <p className="text-error mt-4.5 font-mono text-[0.625rem] font-bold tracking-[0.08em] uppercase">
+          {props.error}
+        </p>
+      )}
       <AtomButton type="submit" className="mt-7 w-full lg:mt-8">
         LOG IN <IconArrowRight />
       </AtomButton>

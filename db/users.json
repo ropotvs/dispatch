@@ -2,16 +2,22 @@
   {
     "id": "u-ada",
     "name": "Ada Lovelace",
-    "handle": "@ada_l"
+    "handle": "@ada_l",
+    "email": "ada@dispatch.dev",
+    "password": "dispatch"
   },
   {
     "id": "u-marco",
     "name": "Marco Diaz",
-    "handle": "@marco"
+    "handle": "@marco",
+    "email": "marco@dispatch.dev",
+    "password": "dispatch"
   },
   {
     "id": "u-priya",
     "name": "Priya Shah",
-    "handle": "@priya"
+    "handle": "@priya",
+    "email": "priya@dispatch.dev",
+    "password": "dispatch"
   }
 ]

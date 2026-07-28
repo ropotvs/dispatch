@@ -7,6 +7,7 @@ import { TypeFormAuthLogin } from '@dispatch/types';
 import { SubmitHandler } from 'react-hook-form';
 
 export function PageAuthLogin(props: {
+  error?: string;
   onSubmit: SubmitHandler<TypeFormAuthLogin>;
 }) {
   return (
@@ -16,6 +17,7 @@ export function PageAuthLogin(props: {
       <FormAuthLogin
         className="mt-6 lg:mt-8"
         defaults={{ email: '', password: '' }}
+        error={props.error}
         onSubmit={props.onSubmit}
       />
     </>

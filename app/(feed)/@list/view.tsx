@@ -14,7 +14,7 @@ import { useInView, useStateWithProps } from '@dispatch/hooks';
 import { IconArrowDown } from '@dispatch/icons';
 import {
   TypeDtoMessage,
-  TypeDtoUser,
+  TypeDtoSession,
   TypeFormFeedFilter,
 } from '@dispatch/types';
 import { useState } from 'react';
@@ -23,7 +23,7 @@ export function FeedListView(props: {
   count: number;
   messages: TypeDtoMessage[];
   filter: Partial<TypeFormFeedFilter>;
-  user: TypeDtoUser;
+  session: TypeDtoSession;
 }) {
   const [feed, setFeed] = useStateWithProps({
     count: props.count,
@@ -116,7 +116,7 @@ export function FeedListView(props: {
       {feed.messages.map((message) => (
         <FeatFeedMessage
           activeTag={props.filter.tag ?? undefined}
-          isAuthor={message.author.id === props.user.id}
+          isAuthor={message.author.id === props.session.id}
           key={message.id}
           message={message}
           onDelete={() => deleteMessage(message)}

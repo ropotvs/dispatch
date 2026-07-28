@@ -1,16 +1,17 @@
 import { FeatFeedHeader } from '@dispatch/feats/feat-feed-header';
-import { TypeDtoUser } from '@dispatch/types';
+import { TypeDtoSession } from '@dispatch/types';
 import { ReactNode } from 'react';
 
 export function PageFeed(props: {
   children: ReactNode;
   compose: ReactNode;
   filters: ReactNode;
-  user: TypeDtoUser;
+  session: TypeDtoSession;
+  onLogout: () => void;
 }) {
   return (
     <div className="bg-paper flex min-h-dvh flex-1 flex-col">
-      <FeatFeedHeader user={props.user} />
+      <FeatFeedHeader onLogout={props.onLogout} session={props.session} />
       <div className="mx-auto grid w-full max-w-[49.5rem] flex-1 grid-cols-1 content-start gap-3.5 p-4 lg:max-w-280 lg:grid-cols-[18.5rem_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-5 lg:p-8">
         <div className="order-1 lg:order-none lg:col-start-2 lg:row-start-1">
           {props.compose}

@@ -1,18 +1,21 @@
 'use client';
 
+import { actionAuthLogin } from '@dispatch/actions';
 import { PageAuthLogin } from '@dispatch/pages/page-auth-login';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export function AuthLoginView() {
-  const router = useRouter();
+  const [error, setError] = useState<string>();
 
   return (
     <PageAuthLogin
-      onSubmit={(data) => {
-        console.log('login with', data);
-        router.push('/');
-        // TODO (out of scope for the challenge): implement authentication
-        // check & session save
+      error={error}
+      onSubmit={async (data) => {
+        setError(undefined);
+        const success = await actionAuthLogin(data);
+        if (!success) {
+          setError('Invalid email or password');
+        }
       }}
     />
   );

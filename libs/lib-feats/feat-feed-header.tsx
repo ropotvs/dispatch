@@ -9,10 +9,13 @@ import {
   AtomMenuItem,
 } from '@dispatch/atoms';
 import { DialogAuthLogout } from '@dispatch/dialogs/dialog-auth-logout';
-import { TypeAtomDialog, TypeDtoUser } from '@dispatch/types';
+import { TypeAtomDialog, TypeDtoSession } from '@dispatch/types';
 import { useRef } from 'react';
 
-export function FeatFeedHeader(props: { user: TypeDtoUser }) {
+export function FeatFeedHeader(props: {
+  session: TypeDtoSession;
+  onLogout: () => void;
+}) {
   const dialog = useRef<TypeAtomDialog>(null);
 
   return (
@@ -24,11 +27,11 @@ export function FeatFeedHeader(props: { user: TypeDtoUser }) {
             <div className="flex items-center gap-2.5">
               <AtomAvatar
                 className="bg-brand"
-                image={props.user.image}
-                name={props.user.name}
+                image={props.session.image}
+                name={props.session.name}
                 size={34}
               />
-              <span className="text-sm">{props.user.handle}</span>
+              <span className="text-sm">{props.session.handle}</span>
             </div>
             <AtomButton
               color="white"
@@ -51,15 +54,15 @@ export function FeatFeedHeader(props: { user: TypeDtoUser }) {
                 >
                   <AtomAvatar
                     className="bg-brand"
-                    image={props.user.image}
-                    name={props.user.name}
+                    image={props.session.image}
+                    name={props.session.name}
                     size={34}
                   />
                 </button>
               }
             >
               <div className="text-muted border-b-2 border-[#eeeeee] px-3 py-2 font-mono text-xs whitespace-nowrap">
-                {props.user.handle}
+                {props.session.handle}
               </div>
               <AtomMenuItem onClick={() => dialog.current?.open()}>
                 LOG OUT
@@ -68,7 +71,7 @@ export function FeatFeedHeader(props: { user: TypeDtoUser }) {
           </div>
         }
       />
-      <DialogAuthLogout ref={dialog} />
+      <DialogAuthLogout onLogout={props.onLogout} ref={dialog} />
     </header>
   );
 }

@@ -1,8 +1,9 @@
-import { actionMessagesGet, actionUsersMeGet } from '@dispatch/actions';
+import { actionMessagesGet, actionSessionGet } from '@dispatch/actions';
 import { ConstMessagesPageSize } from '@dispatch/consts';
 import { mapObjectFromQuery } from '@dispatch/maps';
 import { PageFeedLoading } from '@dispatch/pages/page-feed-loading';
 import { TypeFormFeedFilter } from '@dispatch/types';
+import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { FeedListView } from './@list/view';
 
@@ -11,8 +12,12 @@ export const dynamic = 'force-dynamic';
 export default async function FeedPage(props: {
   searchParams: Promise<{ filters?: string }>;
 }) {
+  const session = await actionSessionGet();
+  if (!session) {
+    redirect('/auth/login');
+  }
+
   const params = await props.searchParams;
-  const user = await actionUsersMeGet();
   const filter = mapObjectFromQuery<TypeFormFeedFilter>(params.filters);
 
   return (
@@ -31,7 +36,7 @@ export default async function FeedPage(props: {
             count={messages.count}
             messages={messages.data}
             filter={filter}
-            user={user}
+            session={session}
           />
         );
       })()}

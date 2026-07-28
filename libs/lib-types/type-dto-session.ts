@@ -1,8 +1,6 @@
-export type TypeDbUser = {
+export type TypeDtoSession = {
   id: string;
   name: string;
   handle: string;
   image?: string;
-  email: string;
-  password: string;
 };

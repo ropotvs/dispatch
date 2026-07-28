@@ -1,4 +1,4 @@
-import { TypeDbMessage, TypeDtoUser } from '@dispatch/types';
+import { TypeDbMessage, TypeDbUser } from '@dispatch/types';
 import { mkdir, readFile, writeFile } from 'fs/promises';
 import path from 'path';
 
@@ -24,4 +24,4 @@ function connect<TRow>(table: string) {
 }
 
 export const DbMessages = connect<TypeDbMessage>('messages');
-export const DbUsers = connect<TypeDtoUser>('users');
+export const DbUsers = connect<TypeDbUser>('users');

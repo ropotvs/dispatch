@@ -8,10 +8,15 @@ import {
   AtomDialogTitle,
 } from '@dispatch/atoms';
 import { TypeAtomDialog } from '@dispatch/types';
-import Link from 'next/link';
 import { Ref } from 'react';
 
-export function DialogAuthLogout({ ref }: { ref?: Ref<TypeAtomDialog> }) {
+export function DialogAuthLogout({
+  ref,
+  ...props
+}: {
+  ref?: Ref<TypeAtomDialog>;
+  onLogout: () => void;
+}) {
   return (
     <AtomDialog ref={ref}>
       <AtomDialogTitle>Log out?</AtomDialogTitle>
@@ -22,7 +27,7 @@ export function DialogAuthLogout({ ref }: { ref?: Ref<TypeAtomDialog> }) {
         <AtomButton color="white" size="sm">
           CANCEL
         </AtomButton>
-        <AtomButton element={<Link href="/auth/login" />} size="sm">
+        <AtomButton size="sm" onClick={props.onLogout}>
           LOG OUT
         </AtomButton>
       </AtomDialogFooter>

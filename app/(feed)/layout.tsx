@@ -1,5 +1,6 @@
-import { actionUsersMeGet } from '@dispatch/actions';
+import { actionAuthLogout, actionSessionGet } from '@dispatch/actions';
 import { PageFeed } from '@dispatch/pages/page-feed';
+import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 
 export default async function FeedLayout(props: {
@@ -7,10 +8,18 @@ export default async function FeedLayout(props: {
   compose: ReactNode;
   filters: ReactNode;
 }) {
-  const user = await actionUsersMeGet();
+  const session = await actionSessionGet();
+  if (!session) {
+    redirect('/auth/login');
+  }
 
   return (
-    <PageFeed compose={props.compose} filters={props.filters} user={user}>
+    <PageFeed
+      compose={props.compose}
+      filters={props.filters}
+      session={session}
+      onLogout={actionAuthLogout}
+    >
       {props.children}
     </PageFeed>
   );
