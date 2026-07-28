@@ -6,7 +6,7 @@ import { FieldDate, FieldSelect, FieldTag } from '@dispatch/fields';
 import { useMediaQuery } from '@dispatch/hooks';
 import { IconGear } from '@dispatch/icons';
 import { TypeDtoUser, TypeFormFeedFilter } from '@dispatch/types';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useMemo } from 'react';
 import { Control, useForm } from 'react-hook-form';
 
 export function FormFeedFilter(props: {
@@ -32,10 +32,17 @@ export function FormFeedFilter(props: {
     });
   });
 
+  const onClear = useMemo(() => {
+    const isEmpty = Object.values(props.value).every(
+      (entry) => entry === null || entry === '',
+    );
+    return isEmpty ? undefined : () => form.reset();
+  }, [form, props.value]);
+
   if (isDesktop) {
     return (
       <aside className="flex flex-col gap-6">
-        <FormFeedFilterHeader onClear={() => form.reset()} />
+        <FormFeedFilterHeader onClear={onClear} />
         <FormFeedFilterTag
           className="flex flex-wrap gap-2"
           control={form.control}
@@ -66,7 +73,7 @@ export function FormFeedFilter(props: {
         }
       >
         <div className="flex flex-col gap-6">
-          <FormFeedFilterHeader onClear={() => form.reset()} />
+          <FormFeedFilterHeader onClear={onClear} />
           <FormFeedFilterUser control={form.control} users={props.users} />
           <FormFeedFilterDate control={form.control} />
         </div>
@@ -75,19 +82,21 @@ export function FormFeedFilter(props: {
   );
 }
 
-function FormFeedFilterHeader(props: { onClear: () => void }) {
+function FormFeedFilterHeader(props: { onClear?: () => void }) {
   return (
     <div className="flex items-center justify-between">
       <div className="font-mono text-[0.8125rem] font-bold tracking-widest">
         FILTERS
       </div>
-      <button
-        type="button"
-        className="text-muted cursor-pointer text-xs underline"
-        onClick={props.onClear}
-      >
-        clear
-      </button>
+      {props.onClear && (
+        <button
+          type="button"
+          className="text-muted cursor-pointer text-xs underline"
+          onClick={props.onClear}
+        >
+          clear
+        </button>
+      )}
     </div>
   );
 }
