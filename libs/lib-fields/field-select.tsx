@@ -1,8 +1,7 @@
 'use client';
 
-import { AtomMenu } from '@dispatch/atoms';
+import { AtomMenu, AtomMenuItem } from '@dispatch/atoms';
 import { IconChevronDown } from '@dispatch/icons';
-import { clsx } from 'clsx';
 import { ReactNode } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
@@ -28,17 +27,13 @@ export function FieldSelect<TValue extends string | null>(props: {
       }
     >
       {props.options.map((option) => (
-        <button
-          className={clsx(
-            'hover:bg-brand block w-full cursor-pointer px-3 py-2 text-left font-mono text-xs font-bold whitespace-nowrap',
-            option.value === value && 'bg-brand',
-          )}
+        <AtomMenuItem
+          active={option.value === value}
           key={option.value}
           onClick={() => form.setValue(props.name, option.value)}
-          type="button"
         >
           {option.label}
-        </button>
+        </AtomMenuItem>
       ))}
     </AtomMenu>
   );
