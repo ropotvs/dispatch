@@ -6,7 +6,7 @@ import { clsx } from 'clsx';
 import { ReactNode } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
-export function FieldSelect<TValue extends string>(props: {
+export function FieldSelect<TValue extends string | null>(props: {
   className?: string;
   prefix?: ReactNode;
   name: string;
