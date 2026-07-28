@@ -43,7 +43,7 @@ All built at mobile (390) and desktop (1440) breakpoints, matched against the de
 - Feed screens render full-bleed; the design frames' outer border/shadow is treated as artboard chrome
 - Node's gzip buffers streamed responses in Safari, hiding the skeletons until the stream completes — compression is off (`compress: false`) in favor of correct streaming everywhere; a real deployment would compress at the CDN/proxy layer instead
 - Ada (@ada_l) is the mock current user: yellow avatar, edit/delete affordances on her message only
-- Content actually persists: `lib-db` is a tiny JSON-file database — `db/messages.json` and `db/users.json` are committed and hold the data itself, and every read and write goes straight to disk, so the feed survives reloads and restarts; messages store only a `authorId` and the fetch action joins the author from the users table into the DTO
+- Content actually persists: `lib-db` is a tiny JSON-file database — `db/messages.json` and `db/users.json` are committed and hold the data itself, and every read and write goes straight to disk, so the feed survives reloads and restarts; messages store only an `authorId` and the fetch action joins the author from the users table into the DTO
 - Pagination is server-truth: pages come 3 at a time with a total count, and `pageCount * pageSize < count` decides "load more" — the list view keeps the loaded pages in props-synced client state and resets whenever the server sends a fresh first page
 - `TODO (out of scope)` comments mark the deliberate boundaries — real auth and a real database (the JSON file stands in)
 
