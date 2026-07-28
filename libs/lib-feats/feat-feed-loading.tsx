@@ -5,12 +5,31 @@ export function FeatFeedLoading() {
   return (
     <>
       {[
-        { handle: 'w-22.5', line2: 'w-4/5', name: 'w-35', text: 'w-full' },
-        { handle: 'w-20', line2: 'w-3/5', name: 'w-30', text: 'w-[95%]' },
-        { handle: 'w-17.5', line2: '', name: 'w-32.5', text: 'w-[88%]' },
+        {
+          handle: 'w-22.5',
+          line2: 'w-4/5',
+          name: 'w-35',
+          text: 'w-full',
+        },
+        {
+          handle: 'w-20',
+          line2: 'w-3/5',
+          name: 'w-30',
+          text: 'w-[95%]',
+        },
+        {
+          className: 'hidden lg:block',
+          handle: 'w-17.5',
+          line2: '',
+          name: 'w-32.5',
+          text: 'w-[88%]',
+        },
       ].map((skeleton) => (
         <div
-          className="border-ink border-[3px] bg-white p-3.5 lg:p-4.5"
+          className={clsx(
+            'border-ink border-[3px] bg-white p-3.5 lg:p-4.5',
+            skeleton.className,
+          )}
           key={skeleton.name}
         >
           <div className="flex items-center gap-2 lg:gap-2.5">
