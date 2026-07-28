@@ -6,6 +6,7 @@ import { TypeFormFeedFilter } from '@dispatch/types';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { FeedListView } from './@list/view';
+import { FeedLoadingMark } from './context';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +22,15 @@ export default async function FeedPage(props: {
   const filter = mapObjectFromQuery<TypeFormFeedFilter>(params.filters);
 
   return (
-    <Suspense key={JSON.stringify(filter)} fallback={<PageFeedLoading />}>
+    <Suspense
+      key={JSON.stringify(filter)}
+      fallback={
+        <>
+          <FeedLoadingMark />
+          <PageFeedLoading />
+        </>
+      }
+    >
       {(async () => {
         const messages = await actionMessagesGet({
           filterDateFrom: filter.dateFrom || undefined,
@@ -35,7 +44,6 @@ export default async function FeedPage(props: {
           <FeedListView
             count={messages.count}
             messages={messages.data}
-            filter={filter}
             session={session}
           />
         );

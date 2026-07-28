@@ -1,139 +1,65 @@
 'use client';
 
-import {
-  actionMessageDelete,
-  actionMessagesGet,
-  actionMessageUpdate,
-} from '@dispatch/actions';
 import { AtomBreakpoint, AtomButton } from '@dispatch/atoms';
-import { ConstMessagesPageSize } from '@dispatch/consts';
 import { FeatFeedEmpty } from '@dispatch/feats/feat-feed-empty';
 import { FeatFeedLoading } from '@dispatch/feats/feat-feed-loading';
 import { FeatFeedMessage } from '@dispatch/feats/feat-feed-message';
-import { useInView, useStateWithProps } from '@dispatch/hooks';
+import { useInView } from '@dispatch/hooks';
 import { IconArrowDown } from '@dispatch/icons';
-import {
-  TypeDtoMessage,
-  TypeDtoSession,
-  TypeFormFeedFilter,
-} from '@dispatch/types';
-import { useState } from 'react';
+import { TypeDtoMessage, TypeDtoSession } from '@dispatch/types';
+import { useEffect } from 'react';
+import { useFeed } from '../context';
 
 export function FeedListView(props: {
   count: number;
   messages: TypeDtoMessage[];
-  filter: Partial<TypeFormFeedFilter>;
   session: TypeDtoSession;
 }) {
-  const [feed, setFeed] = useStateWithProps({
+  const feed = useFeed();
+
+  const sync = feed.sync;
+  useEffect(() => {
+    sync(props.messages, props.count);
+  }, [props.count, props.messages, sync]);
+
+  const list = feed.list ?? {
     count: props.count,
     messages: props.messages,
     pageCount: 1,
-  });
-  const [pending, setPending] = useState(false);
-
-  const hasMore = feed.pageCount * ConstMessagesPageSize < feed.count;
-
-  const loadMore = async () => {
-    if (pending || !hasMore) {
-      return;
-    }
-
-    setPending(true);
-    const page = await actionMessagesGet({
-      filterDateFrom: props.filter.dateFrom || undefined,
-      filterDateTo: props.filter.dateTo || undefined,
-      filterTag: props.filter.tag || undefined,
-      filterAuthorId: props.filter.authorId || undefined,
-      pageIndex: feed.pageCount,
-      pageSize: ConstMessagesPageSize,
-    });
-    setFeed({
-      count: page.count,
-      messages: [...feed.messages, ...page.data],
-      pageCount: feed.pageCount + 1,
-    });
-    setPending(false);
   };
 
-  const updateMessage = async (message: TypeDtoMessage) => {
-    await actionMessageUpdate({
-      id: message.id,
-      tag: message.tag,
-      text: message.text,
-    });
-    setFeed({
-      ...feed,
-      messages: feed.messages.map((item) =>
-        item.id === message.id ? message : item,
-      ),
-    });
-    const fresh = await actionMessagesGet({
-      filterDateFrom: props.filter.dateFrom || undefined,
-      filterDateTo: props.filter.dateTo || undefined,
-      filterTag: props.filter.tag || undefined,
-      filterAuthorId: props.filter.authorId || undefined,
-      pageIndex: 0,
-      pageSize: feed.pageCount * ConstMessagesPageSize,
-    });
-    setFeed({
-      count: fresh.count,
-      messages: fresh.data,
-      pageCount: feed.pageCount,
-    });
-  };
+  const sentinelRef = useInView<HTMLDivElement>(
+    feed.hasMore && !feed.loading,
+    feed.loadMore,
+  );
 
-  const deleteMessage = async (message: TypeDtoMessage) => {
-    await actionMessageDelete({ id: message.id });
-    setFeed({
-      ...feed,
-      count: feed.count - 1,
-      messages: feed.messages.filter((item) => item.id !== message.id),
-    });
-    const fresh = await actionMessagesGet({
-      filterDateFrom: props.filter.dateFrom || undefined,
-      filterDateTo: props.filter.dateTo || undefined,
-      filterTag: props.filter.tag || undefined,
-      filterAuthorId: props.filter.authorId || undefined,
-      pageIndex: 0,
-      pageSize: feed.pageCount * ConstMessagesPageSize,
-    });
-    setFeed({
-      count: fresh.count,
-      messages: fresh.data,
-      pageCount: feed.pageCount,
-    });
-  };
-
-  const sentinelRef = useInView<HTMLDivElement>(hasMore && !pending, loadMore);
-
-  if (feed.messages.length === 0 && !hasMore) {
+  if (list.messages.length === 0 && !feed.hasMore) {
     return <FeatFeedEmpty />;
   }
 
   return (
     <>
-      {feed.messages.map((message) => (
+      {list.messages.map((message) => (
         <FeatFeedMessage
-          activeTag={props.filter.tag ?? undefined}
+          activeTag={feed.filter.tag ?? undefined}
           isAuthor={message.author.id === props.session.id}
           key={message.id}
           message={message}
-          onDelete={() => deleteMessage(message)}
-          onUpdate={(m) => updateMessage(m)}
+          onDelete={() => feed.deleteMessage(message)}
+          onUpdate={(message) => feed.updateMessage(message)}
         />
       ))}
-      {pending ? (
+      {feed.loading ? (
         <FeatFeedLoading />
       ) : (
-        hasMore && (
+        feed.hasMore && (
           <AtomBreakpoint
             desktop={
               <AtomButton
                 className="mt-1 self-center"
                 color="white"
                 size="md"
-                onClick={loadMore}
+                onClick={feed.loadMore}
               >
                 LOAD MORE <IconArrowDown className="h-3.5 w-3.5" />
               </AtomButton>

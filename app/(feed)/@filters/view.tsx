@@ -1,24 +1,17 @@
 'use client';
 
 import { FormFeedFilter } from '@dispatch/forms/form-feed-filter';
-import { mapObjectToQuery } from '@dispatch/maps';
-import { TypeDtoUser, TypeFormFeedFilter } from '@dispatch/types';
-import { useRouter } from 'next/navigation';
+import { TypeDtoUser } from '@dispatch/types';
+import { useFeed } from '../context';
 
-export function FeedFiltersView(props: {
-  users: TypeDtoUser[];
-  value: TypeFormFeedFilter;
-}) {
-  const router = useRouter();
+export function FeedFiltersView(props: { users: TypeDtoUser[] }) {
+  const feed = useFeed();
 
   return (
     <FormFeedFilter
       users={props.users}
-      value={props.value}
-      valueChange={(value) => {
-        const param = mapObjectToQuery(value);
-        router.push(param ? `/?filters=${param}` : '/');
-      }}
+      value={feed.filter}
+      valueChange={feed.setFilter}
     />
   );
 }

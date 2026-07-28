@@ -1,24 +1,8 @@
 import { actionUsersGet } from '@dispatch/actions';
-import { mapObjectFromQuery } from '@dispatch/maps';
-import { TypeFormFeedFilter } from '@dispatch/types';
 import { FeedFiltersView } from './view';
 
-export default async function FeedFiltersPage(props: {
-  searchParams: Promise<{ filters?: string }>;
-}) {
-  const params = await props.searchParams;
+export default async function FeedFiltersPage() {
   const users = await actionUsersGet();
 
-  return (
-    <FeedFiltersView
-      users={users}
-      value={{
-        dateFrom: '',
-        dateTo: '',
-        tag: null,
-        authorId: null,
-        ...mapObjectFromQuery<TypeFormFeedFilter>(params.filters),
-      }}
-    />
-  );
+  return <FeedFiltersView users={users} />;
 }

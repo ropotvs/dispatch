@@ -19,7 +19,7 @@ All built at mobile (390) and desktop (1440) breakpoints, matched against the de
 
 - `/auth/login` — real login: credentials are checked against the users table and the session is stored in an httpOnly cookie; the feed redirects here when there is no session; wrong credentials show a form error, field validation covers the rest (required fields, email format). Demo accounts: `ada@dispatch.dev`, `marco@dispatch.dev`, `priya@dispatch.dev` — password `dispatch` for all (stored in plain text in `db/users.json` on purpose, so testing is easy; a real app would hash them)
 - `/` — message feed from mock data (compose with 240-char counter and tag selector, filter bar, message items)
-- Compose — posting works for real: a server action persists the message and the route refreshes to show it at the top of the feed (POST disables while in flight, the form clears)
+- Compose — posting works for real: a server action persists the message and the route refreshes to show it at the top of the feed; POST disables whenever the list is loading — initial stream, filter changes, load more, or a post in flight — and the form clears
 - Message item — author-only affordances that work: inline edit (text and tag, with counter and validation) and delete-with-confirmation both persist through server actions, and the server enforces it too (mutations reject missing sessions and non-author edits/deletes); changes apply to the list instantly, then the loaded window re-syncs from the server in the background (deletions shift the pages, and a tag edit can drop a message out of a filtered view)
 - Pagination — LOAD MORE button on desktop appends the next page and hides itself on the last one; on mobile it becomes infinite scroll with a skeleton card while fetching
 - Filters — tag chips, user select, and date range, all filtering server-side through a single JSON URL param (`/?filters={"tag":"DESIGN"}`), so any view is bookmarkable — as Ada's mock message promises; on mobile the chips scroll inline and the rest opens from a bottom drawer
@@ -44,7 +44,7 @@ All built at mobile (390) and desktop (1440) breakpoints, matched against the de
 - Node's gzip buffers streamed responses in Safari, hiding the skeletons until the stream completes — compression is off (`compress: false`) in favor of correct streaming everywhere; a real deployment would compress at the CDN/proxy layer instead
 - The signed-in user drives the UI: yellow avatar and handle in the header, edit/delete affordances only on own messages — log in as @marco to edit Marco's posts; the feed is session-guarded, so opening it while signed out redirects to the login screen
 - Content actually persists: `lib-db` is a tiny JSON-file database — `db/messages.json` and `db/users.json` are committed and hold the data itself, and every read and write goes straight to disk, so the feed survives reloads and restarts; messages store only an `authorId` and the fetch action joins the author from the users table into the DTO
-- Pagination is server-truth: pages come 3 at a time with a total count, and `pageCount * pageSize < count` decides "load more" — the list view keeps the loaded pages in props-synced client state and resets whenever the server sends a fresh first page
+- Pagination is server-truth: pages come 3 at a time with a total count, and `pageCount * pageSize < count` decides "load more" — a feed context owns the loaded pages (plus the filter, derived straight from the URL, and the loading flag shared by the slots) and resets whenever the server streams a fresh first page
 - Deliberate boundaries: the JSON files stand in for a real database, and auth stays demo-grade — plain-text passwords, an unsigned session-snapshot cookie, no hashing or session expiry — so everything is easy to inspect and poke at
 
 ## Architecture
@@ -62,7 +62,7 @@ Everything in `libs/` is dumb: components render from props (plus their own UI s
 | `lib-pages`   | Route-level views and shells, composed by `app/`                                                                    |
 | `lib-actions` | Server actions — message list (filters, paging, author join, fake latency), create/update/delete, users, auth (cookie session login/logout) |
 | `lib-db`      | JSON-file database — `connect(table)` factory returning per-table read/write, straight to disk                      |
-| `lib-hooks`   | `useMediaQuery`, `useIsHydrated`, `useBodyScrollLock`, `useKeydown`, `useInView`, `useStateWithProps`               |
+| `lib-hooks`   | `useMediaQuery`, `useIsHydrated`, `useBodyScrollLock`, `useKeydown`, `useInView`               |
 | `lib-maps`    | Query-param serialization — object ⇄ URL query value                                                                |
 | `lib-formats` | Display formatting — relative and absolute dates                                                                    |
 | `lib-enums`   | Message tags                                                                                                        |

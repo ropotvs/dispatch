@@ -2,6 +2,7 @@ import { actionAuthLogout, actionSessionGet } from '@dispatch/actions';
 import { PageFeed } from '@dispatch/pages/page-feed';
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
+import { FeedProvider } from './context';
 
 export default async function FeedLayout(props: {
   children: ReactNode;
@@ -14,13 +15,15 @@ export default async function FeedLayout(props: {
   }
 
   return (
-    <PageFeed
-      compose={props.compose}
-      filters={props.filters}
-      session={session}
-      onLogout={actionAuthLogout}
-    >
-      {props.children}
-    </PageFeed>
+    <FeedProvider>
+      <PageFeed
+        compose={props.compose}
+        filters={props.filters}
+        session={session}
+        onLogout={actionAuthLogout}
+      >
+        {props.children}
+      </PageFeed>
+    </FeedProvider>
   );
 }
