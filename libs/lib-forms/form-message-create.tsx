@@ -41,6 +41,12 @@ export function FormMessageCreate(props: {
         className="placeholder:text-placeholder block field-sizing-content max-h-40 min-h-10 w-full resize-none text-[0.9375rem] wrap-anywhere outline-none lg:min-h-16 lg:text-base"
         maxLength={ConstMessageMaxLength}
         placeholder="What's happening?"
+        onKeyDown={(event) => {
+          if (!props.disabled && event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            event.currentTarget.form?.requestSubmit();
+          }
+        }}
       />
       <div className="mt-2.5 flex items-center justify-between lg:mt-1.5 lg:border-t-2 lg:border-[#eeeeee] lg:pt-3.5">
         <FieldSelect
