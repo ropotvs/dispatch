@@ -1,4 +1,4 @@
-export type TypeUser = {
+export type TypeDtoUser = {
   id: string;
   name: string;
   handle: string;

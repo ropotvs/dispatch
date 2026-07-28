@@ -1,7 +1,7 @@
 'use server';
 
 import { EnumMessageTag } from '@dispatch/enums';
-import { TypeMessage } from '@dispatch/types';
+import { TypeDtoMessage } from '@dispatch/types';
 import { actionUsersGet } from './action-users.get';
 
 export async function actionMessagesGet(props: {
@@ -9,10 +9,10 @@ export async function actionMessagesGet(props: {
   filterUserId?: string;
   pageIndex?: number;
   pageSize?: number;
-}): Promise<TypeMessage[]> {
+}): Promise<TypeDtoMessage[]> {
   const users = await actionUsersGet();
 
-  const hardcodedDbMessages: TypeMessage[] = [
+  const hardcodedDbMessages: TypeDtoMessage[] = [
     {
       id: 'm-1',
       author: users[0],

@@ -1,9 +1,9 @@
 'use server';
 
-import { TypeUser } from '@dispatch/types';
+import { TypeDtoUser } from '@dispatch/types';
 import { actionUsersGet } from './action-users.get';
 
-export async function actionUsersMeGet(): Promise<TypeUser> {
+export async function actionUsersMeGet(): Promise<TypeDtoUser> {
   const users = await actionUsersGet();
 
   return users[0];

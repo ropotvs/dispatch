@@ -1,9 +1,9 @@
 import { EnumMessageTag } from '@dispatch/enums';
-import { TypeUser } from './type-user';
+import { TypeDtoUser } from './type-dto-user';
 
-export type TypeMessage = {
+export type TypeDtoMessage = {
   id: string;
-  author: TypeUser;
+  author: TypeDtoUser;
   text: string;
   tag: EnumMessageTag;
   timestamp: string;
