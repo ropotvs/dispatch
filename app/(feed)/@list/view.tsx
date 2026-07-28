@@ -8,8 +8,8 @@ import {
 import { AtomBreakpoint, AtomButton } from '@dispatch/atoms';
 import { ConstMessagesPageSize } from '@dispatch/consts';
 import { FeatFeedEmpty } from '@dispatch/feats/feat-feed-empty';
+import { FeatFeedLoading } from '@dispatch/feats/feat-feed-loading';
 import { FeatFeedMessage } from '@dispatch/feats/feat-feed-message';
-import { FeatFeedMessageLoading } from '@dispatch/feats/feat-feed-message-loading';
 import { useInView, useStateWithProps } from '@dispatch/hooks';
 import { IconArrowDown } from '@dispatch/icons';
 import {
@@ -123,26 +123,24 @@ export function FeedListView(props: {
           onUpdate={(m) => updateMessage(m)}
         />
       ))}
-      {hasMore && (
-        <AtomBreakpoint
-          desktop={
-            <AtomButton
-              className="mt-1 self-center disabled:opacity-60"
-              color="white"
-              disabled={pending}
-              size="md"
-              onClick={loadMore}
-            >
-              LOAD MORE <IconArrowDown className="h-3.5 w-3.5" />
-            </AtomButton>
-          }
-          mobile={
-            <div>
-              {pending && <FeatFeedMessageLoading />}
-              <div className="h-8" ref={sentinelRef} />
-            </div>
-          }
-        />
+      {pending ? (
+        <FeatFeedLoading />
+      ) : (
+        hasMore && (
+          <AtomBreakpoint
+            desktop={
+              <AtomButton
+                className="mt-1 self-center"
+                color="white"
+                size="md"
+                onClick={loadMore}
+              >
+                LOAD MORE <IconArrowDown className="h-3.5 w-3.5" />
+              </AtomButton>
+            }
+            mobile={<div className="h-8" ref={sentinelRef} />}
+          />
+        )
       )}
     </>
   );
