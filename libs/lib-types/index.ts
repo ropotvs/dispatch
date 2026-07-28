@@ -5,5 +5,6 @@ export * from './type-field-date';
 export * from './type-field-email';
 export * from './type-field-password';
 export * from './type-field-select';
+export * from './type-field-tag';
 export * from './type-form-auth-login';
 export * from './type-form-message-create';
