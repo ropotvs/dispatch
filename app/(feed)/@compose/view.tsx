@@ -8,7 +8,8 @@ export function FeedComposeView() {
     <FormMessageCreate
       defaults={{ tag: EnumMessageTag.Product, text: '' }}
       onSubmit={(data) => {
-        console.log('data', data);
+        console.log('create message with', data);
+        // TODO implement message creation
       }}
     />
   );

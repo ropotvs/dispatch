@@ -12,12 +12,12 @@ export default async function FeedPage(props: {
   searchParams: Promise<{ filters?: string }>;
 }) {
   const params = await props.searchParams;
+  const user = await actionUsersMeGet();
   const filters = mapObjectFromQuery<TypeFormFeedFilter>(params.filters);
 
   return (
     <Suspense key={JSON.stringify(filters)} fallback={<PageFeedLoading />}>
       {(async () => {
-        const user = await actionUsersMeGet();
         const messages = await actionMessagesGet({
           filterDateFrom: filters.dateFrom || undefined,
           filterDateTo: filters.dateTo || undefined,

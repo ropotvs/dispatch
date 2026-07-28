@@ -11,6 +11,7 @@ export function AuthLoginView() {
       onSubmit={(data) => {
         console.log('login with', data);
         router.push('/');
+        // TODO implement authentication check & session save
       }}
     />
   );
