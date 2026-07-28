@@ -48,9 +48,9 @@ export function FieldSelect<
           <button
             id={id}
             type="button"
+            data-invalid={controller.fieldState.invalid ? '' : undefined}
             className={clsx(
-              'flex cursor-pointer items-center bg-white',
-              controller.fieldState.invalid ? 'border-error' : 'border-ink',
+              'border-ink data-invalid:border-error flex cursor-pointer items-center bg-white',
               props.className,
             )}
           >
