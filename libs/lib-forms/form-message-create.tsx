@@ -21,7 +21,7 @@ export function FormMessageCreate(props: {
     name: 'text',
   });
 
-  const limitNear = formValueText.length >= ConstMessageMaxLength - 20;
+  const limitNear = formValueText.length >= ConstMessageMaxLength * 0.9;
   const limitReached = formValueText.length >= ConstMessageMaxLength;
 
   return (
