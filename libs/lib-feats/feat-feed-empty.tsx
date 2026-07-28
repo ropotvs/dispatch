@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export function FeatFeedEmpty() {
   return (
     <div className="border-ink flex flex-1 flex-col items-center justify-center border-[3px] border-dashed bg-[repeating-linear-gradient(45deg,#edede7,#edede7_10px,#e4e4de_10px,#e4e4de_20px)] p-6 text-center lg:p-10">
@@ -9,7 +11,16 @@ export function FeatFeedEmpty() {
       </div>
       <div className="text-muted mt-2 text-xs leading-[1.6] lg:max-w-90 lg:text-sm">
         No messages match this view. Post the first one
-        <span className="hidden lg:inline">, or clear your filters</span>.
+        <span className="hidden lg:inline">
+          , or{' '}
+          <Link
+            className="hover:text-ink underline transition-colors duration-100"
+            href="/"
+          >
+            clear your filters
+          </Link>
+        </span>
+        .
       </div>
     </div>
   );
