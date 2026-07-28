@@ -26,6 +26,8 @@
       "@dispatch/feats": ["./libs/lib-feats/index.ts"],
       "@dispatch/fields": ["./libs/lib-fields/index.ts"],
       "@dispatch/fonts": ["./libs/lib-fonts/index.ts"],
+      "@dispatch/forms/*": ["./libs/lib-forms/*"],
+      "@dispatch/hooks": ["./libs/lib-hooks/index.ts"],
       "@dispatch/icons": ["./libs/lib-icons/index.ts"],
       "@dispatch/pages/*": ["./libs/lib-pages/*"],
       "@dispatch/types": ["./libs/lib-types/index.ts"]
