@@ -1,5 +1,6 @@
 export * from './atom-avatar';
 export * from './atom-button';
+export * from './atom-drawer';
 export * from './atom-field';
 export * from './atom-input';
 export * from './atom-logo';
