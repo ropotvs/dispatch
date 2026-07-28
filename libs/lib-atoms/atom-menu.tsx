@@ -25,7 +25,7 @@ export function AtomMenu(props: {
       {open && (
         <div
           className={clsx(
-            'border-ink absolute top-full z-40 mt-1 min-w-full border-2 bg-white',
+            'border-ink motion-safe:animate-pop-in absolute top-full z-40 mt-1 min-w-full origin-top border-2 bg-white',
             props.align === 'end' ? 'right-0' : 'left-0',
           )}
           onClick={() => setOpen(false)}

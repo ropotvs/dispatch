@@ -35,7 +35,7 @@ export function AtomDialog({
         cloneElement(props.trigger, { onClick: () => setOpen(!open) })}
       {open && (
         <div
-          className="bg-ink/50 fixed inset-0 z-30"
+          className="bg-ink/50 motion-safe:animate-fade-in fixed inset-0 z-30"
           onClick={() => setOpen(false)}
         />
       )}
@@ -43,7 +43,7 @@ export function AtomDialog({
         <div
           aria-modal="true"
           role="dialog"
-          className="border-ink fixed top-1/2 left-1/2 z-40 w-[calc(100%-2.5rem)] max-w-105 -translate-x-1/2 -translate-y-1/2 border-[3px] bg-white p-6 shadow-[8px_8px_0_var(--color-ink)] lg:p-7"
+          className="border-ink motion-safe:animate-pop-in fixed top-1/2 left-1/2 z-40 w-[calc(100%-2.5rem)] max-w-105 -translate-x-1/2 -translate-y-1/2 border-[3px] bg-white p-6 shadow-[8px_8px_0_var(--color-ink)] lg:p-7"
           onClick={(event) => {
             if (
               event.target instanceof Element &&
