@@ -77,6 +77,19 @@ export function FeedListView(props: {
       count: feed.count - 1,
       messages: feed.messages.filter((item) => item.id !== message.id),
     });
+    const fresh = await actionMessagesGet({
+      filterDateFrom: props.filter.dateFrom || undefined,
+      filterDateTo: props.filter.dateTo || undefined,
+      filterTag: props.filter.tag || undefined,
+      filterAuthorId: props.filter.authorId || undefined,
+      pageIndex: 0,
+      pageSize: feed.pageCount * ConstMessagesPageSize,
+    });
+    setFeed({
+      count: fresh.count,
+      messages: fresh.data,
+      pageCount: feed.pageCount,
+    });
   };
 
   const sentinelRef = useInView<HTMLDivElement>(hasMore && !pending, loadMore);
