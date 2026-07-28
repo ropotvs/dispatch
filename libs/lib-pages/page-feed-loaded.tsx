@@ -19,6 +19,10 @@ export function PageFeedLoaded(props: {
           message={message}
         />
       ))}
+      {/* TODO (out of scope for the challenge): wire LOAD MORE — paginate
+          through actionMessagesGet (pageIndex/pageSize), hide the button once
+          the last page is reached, and replace it with infinite scroll on
+          mobile. */}
       <AtomButton className="mt-1 self-center" color="white" size="md">
         LOAD MORE <IconArrowDown className="h-3.5 w-3.5" />
       </AtomButton>

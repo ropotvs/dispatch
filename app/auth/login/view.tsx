@@ -11,7 +11,8 @@ export function AuthLoginView() {
       onSubmit={(data) => {
         console.log('login with', data);
         router.push('/');
-        // TODO implement authentication check & session save
+        // TODO (out of scope for the challenge): implement authentication
+        // check & session save
       }}
     />
   );

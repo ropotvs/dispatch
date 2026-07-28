@@ -9,7 +9,7 @@ export function FeedComposeView() {
       defaults={{ tag: EnumMessageTag.Product, text: '' }}
       onSubmit={(data) => {
         console.log('create message with', data);
-        // TODO implement message creation
+        // TODO (out of scope for the challenge): implement message creation
       }}
     />
   );
