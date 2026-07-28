@@ -15,7 +15,7 @@ export function PageFeed(props: {
         <div className="order-1 lg:order-none lg:col-start-2 lg:row-start-1">
           {props.compose}
         </div>
-        <div className="order-2 lg:order-none lg:col-start-1 lg:row-span-2 lg:row-start-1">
+        <div className="order-2 lg:sticky lg:top-26 lg:order-none lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:self-start">
           {props.filters}
         </div>
         <main className="order-3 flex flex-col gap-3.5 lg:order-none lg:col-start-2 lg:row-start-2 lg:gap-5">
