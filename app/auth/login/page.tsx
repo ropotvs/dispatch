@@ -1,5 +1,5 @@
-import { PageAuthLogin } from '@dispatch/pages/page-auth-login';
+import { AuthLoginView } from './view';
 
 export default function AuthLoginPage() {
-  return <PageAuthLogin />;
+  return <AuthLoginView />;
 }
