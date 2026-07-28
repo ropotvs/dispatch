@@ -2,7 +2,7 @@ import { AtomButton, AtomLogo } from '@dispatch/atoms';
 import { IconArrowRight } from '@dispatch/icons';
 import Link from 'next/link';
 
-export function PageNotFound() {
+export function Page404() {
   return (
     <div className="bg-paper flex min-h-dvh flex-1 flex-col items-center justify-center p-6 text-center">
       <AtomLogo className="h-[0.591rem] lg:h-[0.637rem]" />

@@ -1,5 +1,5 @@
-import { PageNotFound } from '@dispatch/pages/page-not-found';
+import { Page404 } from '@dispatch/pages/page-404';
 
 export default function NotFound() {
-  return <PageNotFound />;
+  return <Page404 />;
 }
