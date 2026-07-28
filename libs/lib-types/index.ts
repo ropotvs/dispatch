@@ -1,3 +1,4 @@
+export * from './type-atom-dialog';
 export * from './type-dto-message';
 export * from './type-dto-user';
 export * from './type-field';

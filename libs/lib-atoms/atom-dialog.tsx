@@ -1,25 +1,38 @@
 'use client';
 
 import { useBodyScrollLock } from '@dispatch/hooks';
+import { TypeAtomDialog } from '@dispatch/types';
 import {
   cloneElement,
   MouseEventHandler,
   ReactElement,
   ReactNode,
+  Ref,
+  useImperativeHandle,
   useState,
 } from 'react';
 
-export function AtomDialog(props: {
-  trigger: ReactElement<{ onClick?: MouseEventHandler<HTMLElement> }>;
+export function AtomDialog({
+  ref,
+  ...props
+}: {
+  ref?: Ref<TypeAtomDialog>;
+  trigger?: ReactElement<{ onClick?: MouseEventHandler<HTMLElement> }>;
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+
+  useImperativeHandle(ref, () => ({
+    close: () => setOpen(false),
+    open: () => setOpen(true),
+  }));
 
   useBodyScrollLock(open);
 
   return (
     <>
-      {cloneElement(props.trigger, { onClick: () => setOpen(!open) })}
+      {props.trigger &&
+        cloneElement(props.trigger, { onClick: () => setOpen(!open) })}
       {open && (
         <div
           className="bg-ink/50 fixed inset-0 z-30"

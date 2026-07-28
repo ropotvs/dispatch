@@ -1,5 +1,6 @@
 'use client';
 
+import { clsx } from 'clsx';
 import {
   cloneElement,
   MouseEventHandler,
@@ -9,6 +10,7 @@ import {
 } from 'react';
 
 export function AtomMenu(props: {
+  align?: 'end' | 'start';
   trigger: ReactElement<{ onClick?: MouseEventHandler<HTMLElement> }>;
   children: ReactNode;
 }) {
@@ -22,7 +24,10 @@ export function AtomMenu(props: {
       )}
       {open && (
         <div
-          className="border-ink absolute top-full left-0 z-40 mt-1 min-w-full border-2 bg-white"
+          className={clsx(
+            'border-ink absolute top-full z-40 mt-1 min-w-full border-2 bg-white',
+            props.align === 'end' ? 'right-0' : 'left-0',
+          )}
           onClick={() => setOpen(false)}
         >
           {props.children}
