@@ -22,24 +22,20 @@ export function FeedListView(props: {
     sync(props.messages, props.count);
   }, [props.count, props.messages, sync]);
 
-  const list = feed.list ?? {
-    count: props.count,
-    messages: props.messages,
-    pageCount: 1,
-  };
+  const messages = feed.messages ?? props.messages;
 
   const sentinelRef = useInView<HTMLDivElement>(
     feed.hasMore && !feed.loading,
     feed.loadMore,
   );
 
-  if (list.messages.length === 0 && !feed.hasMore) {
+  if (messages.length === 0 && !feed.hasMore) {
     return <FeatFeedEmpty />;
   }
 
   return (
     <>
-      {list.messages.map((message) => (
+      {messages.map((message) => (
         <FeatFeedMessage
           activeTag={feed.filter.tag ?? undefined}
           isAuthor={message.author.id === props.session.id}

@@ -24,32 +24,30 @@ import {
   useState,
 } from 'react';
 
-type TypeFeedList = {
-  count: number;
-  messages: TypeDtoMessage[];
-  pageCount: number;
-};
-
 const FeedContext = createContext<{
+  count: number;
   createMessage: (data: TypeFormMessageCreate) => Promise<void>;
   deleteMessage: (message: TypeDtoMessage) => Promise<void>;
   filter: TypeFormFeedFilter;
   hasMore: boolean;
-  list: TypeFeedList | null;
   loading: boolean;
   loadMore: () => Promise<void>;
+  messages: TypeDtoMessage[] | null;
+  pageCount: number;
   setFilter: (value: TypeFormFeedFilter) => void;
   setLoading: (loading: boolean) => void;
   sync: (messages: TypeDtoMessage[], count: number) => void;
   updateMessage: (message: TypeDtoMessage) => Promise<void>;
 }>({
+  count: 0,
   createMessage: async () => {},
   deleteMessage: async () => {},
   filter: { dateFrom: '', dateTo: '', tag: null, authorId: null },
   hasMore: false,
-  list: null,
   loading: false,
   loadMore: async () => {},
+  messages: null,
+  pageCount: 1,
   setFilter: () => {},
   setLoading: () => {},
   sync: () => {},
@@ -60,7 +58,9 @@ export function FeedProvider(props: { children: ReactNode }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [list, setList] = useState<TypeFeedList | null>(null);
+  const [messages, setMessages] = useState<TypeDtoMessage[] | null>(null);
+  const [count, setCount] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const filtersParam = searchParams.get('filters') ?? undefined;
@@ -75,7 +75,7 @@ export function FeedProvider(props: { children: ReactNode }) {
     [filtersParam],
   );
 
-  const hasMore = !!list && list.pageCount * ConstMessagesPageSize < list.count;
+  const hasMore = !!messages && pageCount * ConstMessagesPageSize < count;
 
   const fetchMessages = (pageIndex: number, pageSize: number) =>
     actionMessagesGet({
@@ -88,8 +88,11 @@ export function FeedProvider(props: { children: ReactNode }) {
     });
 
   const sync = useCallback(
-    (messages: TypeDtoMessage[], count: number) =>
-      setList({ count, messages, pageCount: 1 }),
+    (nextMessages: TypeDtoMessage[], nextCount: number) => {
+      setMessages(nextMessages);
+      setCount(nextCount);
+      setPageCount(1);
+    },
     [],
   );
 
@@ -99,34 +102,26 @@ export function FeedProvider(props: { children: ReactNode }) {
   };
 
   const loadMore = async () => {
-    if (!list || loading || !hasMore) {
+    if (!messages || loading || !hasMore) {
       return;
     }
 
     setLoading(true);
-    const page = await fetchMessages(list.pageCount, ConstMessagesPageSize);
-    setList({
-      count: page.count,
-      messages: [...list.messages, ...page.data],
-      pageCount: list.pageCount + 1,
-    });
+    const page = await fetchMessages(pageCount, ConstMessagesPageSize);
+    setMessages([...messages, ...page.data]);
+    setCount(page.count);
+    setPageCount(pageCount + 1);
     setLoading(false);
   };
 
   const refetchMessages = async () => {
-    if (!list) {
+    if (!messages) {
       return;
     }
 
-    const fresh = await fetchMessages(
-      0,
-      list.pageCount * ConstMessagesPageSize,
-    );
-    setList({
-      count: fresh.count,
-      messages: fresh.data,
-      pageCount: list.pageCount,
-    });
+    const fresh = await fetchMessages(0, pageCount * ConstMessagesPageSize);
+    setMessages(fresh.data);
+    setCount(fresh.count);
   };
 
   const createMessage = async (data: TypeFormMessageCreate) => {
@@ -140,39 +135,32 @@ export function FeedProvider(props: { children: ReactNode }) {
       tag: message.tag,
       text: message.text,
     });
-    setList(
-      list && {
-        ...list,
-        messages: list.messages.map((item) =>
-          item.id === message.id ? message : item,
-        ),
-      },
+    setMessages(
+      messages &&
+        messages.map((item) => (item.id === message.id ? message : item)),
     );
     await refetchMessages();
   };
 
   const deleteMessage = async (message: TypeDtoMessage) => {
     await actionMessageDelete({ id: message.id });
-    setList(
-      list && {
-        ...list,
-        count: list.count - 1,
-        messages: list.messages.filter((item) => item.id !== message.id),
-      },
-    );
+    setMessages(messages && messages.filter((item) => item.id !== message.id));
+    setCount(count - 1);
     await refetchMessages();
   };
 
   return (
     <FeedContext.Provider
       value={{
+        count,
         createMessage,
         deleteMessage,
         filter,
         hasMore,
-        list,
         loading,
         loadMore,
+        messages,
+        pageCount,
         setFilter,
         setLoading,
         sync,
