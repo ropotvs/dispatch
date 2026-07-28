@@ -50,7 +50,7 @@ export function FieldSelect<
             type="button"
             data-invalid={controller.fieldState.invalid ? '' : undefined}
             className={clsx(
-              'border-ink data-invalid:border-error flex cursor-pointer items-center bg-white',
+              'border-ink data-invalid:border-error flex cursor-pointer items-center bg-white transition-[translate,box-shadow] duration-100 hover:translate-[-1px] hover:shadow-[2px_2px_0_var(--color-ink)] active:translate-[0px] active:shadow-none',
               props.className,
             )}
           >

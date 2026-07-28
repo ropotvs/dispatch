@@ -45,7 +45,10 @@ export function FeatFeedHeader(props: { user: TypeDtoUser }) {
             <AtomMenu
               align="end"
               trigger={
-                <button className="block cursor-pointer" type="button">
+                <button
+                  className="block cursor-pointer transition-[translate,box-shadow] duration-100 hover:translate-[-1px] hover:shadow-[2px_2px_0_var(--color-ink)] active:translate-[0px] active:shadow-none"
+                  type="button"
+                >
                   <AtomAvatar
                     className="bg-brand"
                     image={props.user.image}

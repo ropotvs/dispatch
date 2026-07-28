@@ -16,7 +16,10 @@ export function AtomTag(props: {
   if (props.onClick) {
     return (
       <button
-        className={clsx(className, 'cursor-pointer')}
+        className={clsx(
+          className,
+          'cursor-pointer transition-[translate,box-shadow] duration-100 hover:translate-[-1px] hover:shadow-[2px_2px_0_var(--color-ink)] active:translate-[0px] active:shadow-none',
+        )}
         onClick={props.onClick}
         type="button"
       >

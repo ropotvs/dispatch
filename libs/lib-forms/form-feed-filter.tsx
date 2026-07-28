@@ -62,7 +62,7 @@ export function FormFeedFilter(props: {
           <AtomDrawer
             trigger={
               <button
-                className="border-ink flex h-8 w-9 shrink-0 cursor-pointer items-center justify-center border-[2.5px] bg-white"
+                className="border-ink flex h-8 w-9 shrink-0 cursor-pointer items-center justify-center border-[2.5px] bg-white transition-[translate,box-shadow] duration-100 hover:translate-[-1px] hover:shadow-[2px_2px_0_var(--color-ink)] active:translate-[0px] active:shadow-none"
                 type="button"
               >
                 <IconGear />
@@ -90,7 +90,7 @@ function FormFeedFilterHeader(props: { onClear?: () => void }) {
       {props.onClear && (
         <button
           type="button"
-          className="text-muted cursor-pointer text-xs underline"
+          className="text-muted hover:text-ink cursor-pointer text-xs underline transition-colors duration-100"
           onClick={props.onClear}
         >
           clear
