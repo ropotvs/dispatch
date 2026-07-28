@@ -34,7 +34,7 @@ export function FormMessageCreate(props: {
     >
       <textarea
         {...form.register('text')}
-        className="placeholder:text-placeholder field-sizing-content block max-h-40 min-h-10 w-full resize-none text-[0.9375rem] wrap-anywhere outline-none lg:min-h-16 lg:text-base"
+        className="placeholder:text-placeholder block field-sizing-content max-h-40 min-h-10 w-full resize-none text-[0.9375rem] wrap-anywhere outline-none lg:min-h-16 lg:text-base"
         maxLength={ConstMessageMaxLength}
         placeholder="What's happening?"
       />
