@@ -22,7 +22,7 @@ export default async function FeedPage(props: {
           filterDateFrom: filter.dateFrom || undefined,
           filterDateTo: filter.dateTo || undefined,
           filterTag: filter.tag || undefined,
-          filterUserId: filter.userId || undefined,
+          filterAuthorId: filter.authorId || undefined,
           pageIndex: 0,
           pageSize: ConstMessagesPageSize,
         });

@@ -7,5 +7,5 @@ export type TypeFormFeedFilter = {
   dateFrom: TypeFieldDate;
   dateTo: TypeFieldDate;
   tag: TypeFieldTag<EnumMessageTag | null>;
-  userId: TypeFieldSelect<string | null>;
+  authorId: TypeFieldSelect<string | null>;
 };

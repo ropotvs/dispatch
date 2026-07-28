@@ -1,0 +1,58 @@
+[
+  {
+    "id": "m-1",
+    "createdAt": "2026-07-28T17:04:56.949Z",
+    "tag": "PRODUCT",
+    "text": "Shipped the new filter bar — tag + date now sync to the URL so any view is bookmarkable. Feedback welcome.",
+    "authorId": "u-ada"
+  },
+  {
+    "id": "m-2",
+    "createdAt": "2026-07-28T16:48:56.949Z",
+    "tag": "DESIGN",
+    "text": "Is the empty-state copy too dry? Thinking we add a nudge to post the first message.",
+    "authorId": "u-marco"
+  },
+  {
+    "id": "m-3",
+    "createdAt": "2026-07-28T16:06:56.949Z",
+    "tag": "ANNOUNCE",
+    "text": "Reminder: standup moves to 10:30 starting next week.",
+    "authorId": "u-priya"
+  },
+  {
+    "id": "m-4",
+    "createdAt": "2026-07-28T14:06:56.949Z",
+    "tag": "DESIGN",
+    "text": "Refreshed the empty state — dashed border, diagonal stripes, one big exclamation mark. Thoughts?",
+    "authorId": "u-marco"
+  },
+  {
+    "id": "m-5",
+    "createdAt": "2026-07-28T12:06:56.949Z",
+    "tag": "PRODUCT",
+    "text": "Load more is in: a proper button on desktop, infinite scroll on mobile. The feed finally scrolls forever*. (*eight messages)",
+    "authorId": "u-ada"
+  },
+  {
+    "id": "m-6",
+    "createdAt": "2026-07-28T08:06:56.949Z",
+    "tag": "RANDOM",
+    "text": "The coffee machine on the 3rd floor is fixed. I repeat: it is fixed.",
+    "authorId": "u-priya"
+  },
+  {
+    "id": "m-7",
+    "createdAt": "2026-07-27T15:06:56.949Z",
+    "tag": "DESIGN",
+    "text": "Buttons now press into their shadows on click. Tiny thing, feels great.",
+    "authorId": "u-ada"
+  },
+  {
+    "id": "m-8",
+    "createdAt": "2026-07-26T17:06:56.949Z",
+    "tag": "PRODUCT",
+    "text": "Heads up: the date filters understand ranges now, so \"everything from Monday\" is a bookmarkable link.",
+    "authorId": "u-marco"
+  }
+]

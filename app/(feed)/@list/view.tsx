@@ -1,20 +1,23 @@
 'use client';
 
-import { actionMessagesGet } from '@dispatch/actions';
+import {
+  actionMessageDelete,
+  actionMessagesGet,
+  actionMessageUpdate,
+} from '@dispatch/actions';
 import { AtomBreakpoint, AtomButton } from '@dispatch/atoms';
 import { ConstMessagesPageSize } from '@dispatch/consts';
 import { FeatFeedEmpty } from '@dispatch/feats/feat-feed-empty';
 import { FeatFeedMessage } from '@dispatch/feats/feat-feed-message';
 import { FeatFeedMessageLoading } from '@dispatch/feats/feat-feed-message-loading';
-import { useInView } from '@dispatch/hooks';
+import { useInView, useStateWithProps } from '@dispatch/hooks';
 import { IconArrowDown } from '@dispatch/icons';
 import {
   TypeDtoMessage,
   TypeDtoUser,
   TypeFormFeedFilter,
 } from '@dispatch/types';
-import { useEffect, useState } from 'react';
-import { useFeedContext } from '../context';
+import { useState } from 'react';
 
 export function FeedListView(props: {
   count: number;
@@ -22,18 +25,14 @@ export function FeedListView(props: {
   filter: Partial<TypeFormFeedFilter>;
   user: TypeDtoUser;
 }) {
-  const feed = useFeedContext();
-
-  const [count, setCount] = useState(props.count);
-  const [pageCount, setPageCount] = useState(1);
+  const [feed, setFeed] = useStateWithProps({
+    count: props.count,
+    messages: props.messages,
+    pageCount: 1,
+  });
   const [pending, setPending] = useState(false);
 
-  const resetMessages = feed.resetMessages;
-  useEffect(() => {
-    resetMessages(props.messages);
-  }, [props.messages, resetMessages]);
-
-  const hasMore = pageCount * ConstMessagesPageSize < count;
+  const hasMore = feed.pageCount * ConstMessagesPageSize < feed.count;
 
   const loadMore = async () => {
     if (pending || !hasMore) {
@@ -45,14 +44,39 @@ export function FeedListView(props: {
       filterDateFrom: props.filter.dateFrom || undefined,
       filterDateTo: props.filter.dateTo || undefined,
       filterTag: props.filter.tag || undefined,
-      filterUserId: props.filter.userId || undefined,
-      pageIndex: pageCount,
+      filterAuthorId: props.filter.authorId || undefined,
+      pageIndex: feed.pageCount,
       pageSize: ConstMessagesPageSize,
     });
-    feed.appendMessages(page.data);
-    setPageCount(pageCount + 1);
-    setCount(page.count);
+    setFeed({
+      count: page.count,
+      messages: [...feed.messages, ...page.data],
+      pageCount: feed.pageCount + 1,
+    });
     setPending(false);
+  };
+
+  const updateMessage = async (message: TypeDtoMessage) => {
+    await actionMessageUpdate({
+      id: message.id,
+      tag: message.tag,
+      text: message.text,
+    });
+    setFeed({
+      ...feed,
+      messages: feed.messages.map((item) =>
+        item.id === message.id ? message : item,
+      ),
+    });
+  };
+
+  const deleteMessage = async (message: TypeDtoMessage) => {
+    await actionMessageDelete({ id: message.id });
+    setFeed({
+      ...feed,
+      count: feed.count - 1,
+      messages: feed.messages.filter((item) => item.id !== message.id),
+    });
   };
 
   const sentinelRef = useInView<HTMLDivElement>(hasMore && !pending, loadMore);
@@ -69,8 +93,8 @@ export function FeedListView(props: {
           isAuthor={message.author.id === props.user.id}
           key={message.id}
           message={message}
-          onDelete={() => feed.deleteMessage(message)}
-          onUpdate={feed.updateMessage}
+          onDelete={() => deleteMessage(message)}
+          onUpdate={(m) => updateMessage(m)}
         />
       ))}
       {hasMore && (

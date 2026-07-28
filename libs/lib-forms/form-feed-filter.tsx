@@ -14,7 +14,7 @@ export function FormFeedFilter(props: {
   valueChange: (value: TypeFormFeedFilter) => void;
 }) {
   const form = useForm<TypeFormFeedFilter>({
-    defaultValues: { dateFrom: '', dateTo: '', tag: null, userId: null },
+    defaultValues: { dateFrom: '', dateTo: '', tag: null, authorId: null },
     resetOptions: { keepDefaultValues: true },
     values: props.value,
   });
@@ -128,7 +128,7 @@ function FormFeedFilterUser(props: {
       label="User"
       className="h-11.5 w-full justify-between border-[2.5px] px-3 text-sm"
       control={props.control}
-      name="userId"
+      name="authorId"
       options={[
         { label: 'All users', value: null },
         ...props.users.map((user) => ({ label: user.name, value: user.id })),

@@ -11,6 +11,7 @@ import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 export function FormMessageCreate(props: {
   className?: string;
   defaults: TypeFormMessageCreate;
+  disabled?: boolean;
   onSubmit: SubmitHandler<TypeFormMessageCreate>;
 }) {
   const form = useForm<TypeFormMessageCreate>({
@@ -62,7 +63,7 @@ export function FormMessageCreate(props: {
           >
             {formValueText.length}/{ConstMessageMaxLength}
           </span>
-          <AtomButton type="submit" size="sm">
+          <AtomButton disabled={props.disabled} type="submit" size="sm">
             POST
           </AtomButton>
         </div>

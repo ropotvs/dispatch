@@ -16,7 +16,7 @@ export default async function FeedFiltersPage(props: {
         dateFrom: '',
         dateTo: '',
         tag: null,
-        userId: null,
+        authorId: null,
         ...mapObjectFromQuery<TypeFormFeedFilter>(params.filters),
       }}
     />

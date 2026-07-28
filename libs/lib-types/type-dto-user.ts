@@ -1,6 +1,3 @@
-export type TypeDtoUser = {
-  id: string;
-  name: string;
-  handle: string;
-  image?: string;
-};
+import { TypeDbUser } from './type-db-user';
+
+export type TypeDtoUser = TypeDbUser;

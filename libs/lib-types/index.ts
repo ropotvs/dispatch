@@ -1,4 +1,5 @@
 export * from './type-atom-dialog';
+export * from './type-db-message';
 export * from './type-dto-message';
 export * from './type-dto-user';
 export * from './type-field';
