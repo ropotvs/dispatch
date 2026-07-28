@@ -1,9 +1,8 @@
 'use client';
 
-import { AtomDrawer } from '@dispatch/atoms';
+import { AtomBreakpoint, AtomDrawer } from '@dispatch/atoms';
 import { EnumMessageTag } from '@dispatch/enums';
 import { FieldDate, FieldSelect, FieldTag } from '@dispatch/fields';
-import { useMediaQuery } from '@dispatch/hooks';
 import { IconGear } from '@dispatch/icons';
 import { TypeDtoUser, TypeFormFeedFilter } from '@dispatch/types';
 import { ReactNode, useEffect, useMemo } from 'react';
@@ -14,7 +13,6 @@ export function FormFeedFilter(props: {
   value: TypeFormFeedFilter;
   valueChange: (value: TypeFormFeedFilter) => void;
 }) {
-  const isDesktop = useMediaQuery('(min-width: var(--breakpoint-lg))');
   const form = useForm<TypeFormFeedFilter>({
     defaultValues: { dateFrom: '', dateTo: '', tag: null, userId: null },
     resetOptions: { keepDefaultValues: true },
@@ -39,46 +37,47 @@ export function FormFeedFilter(props: {
     return isEmpty ? undefined : () => form.reset();
   }, [form, props.value]);
 
-  if (isDesktop) {
-    return (
-      <aside className="flex flex-col gap-6">
-        <FormFeedFilterHeader onClear={onClear} />
-        <FormFeedFilterTag
-          className="flex flex-wrap gap-2"
-          control={form.control}
-          label="Tag"
-        />
-        <FormFeedFilterUser control={form.control} users={props.users} />
-        <FormFeedFilterDate control={form.control} />
-      </aside>
-    );
-  }
-
   return (
-    <div className="flex items-center gap-2">
-      <div className="min-w-0 flex-1">
-        <FormFeedFilterTag
-          className="-m-1 flex scrollbar-none gap-2 overflow-x-auto p-1"
-          control={form.control}
-        />
-      </div>
-      <AtomDrawer
-        trigger={
-          <button
-            className="border-ink flex h-8 w-9 shrink-0 cursor-pointer items-center justify-center border-[2.5px] bg-white"
-            type="button"
-          >
-            <IconGear />
-          </button>
-        }
-      >
-        <div className="flex flex-col gap-6">
+    <AtomBreakpoint
+      desktop={
+        <aside className="flex flex-col gap-6">
           <FormFeedFilterHeader onClear={onClear} />
+          <FormFeedFilterTag
+            className="flex flex-wrap gap-2"
+            control={form.control}
+            label="Tag"
+          />
           <FormFeedFilterUser control={form.control} users={props.users} />
           <FormFeedFilterDate control={form.control} />
+        </aside>
+      }
+      mobile={
+        <div className="flex items-center gap-2">
+          <div className="min-w-0 flex-1">
+            <FormFeedFilterTag
+              className="-m-1 flex scrollbar-none gap-2 overflow-x-auto p-1"
+              control={form.control}
+            />
+          </div>
+          <AtomDrawer
+            trigger={
+              <button
+                className="border-ink flex h-8 w-9 shrink-0 cursor-pointer items-center justify-center border-[2.5px] bg-white"
+                type="button"
+              >
+                <IconGear />
+              </button>
+            }
+          >
+            <div className="flex flex-col gap-6">
+              <FormFeedFilterHeader onClear={onClear} />
+              <FormFeedFilterUser control={form.control} users={props.users} />
+              <FormFeedFilterDate control={form.control} />
+            </div>
+          </AtomDrawer>
         </div>
-      </AtomDrawer>
-    </div>
+      }
+    />
   );
 }
 

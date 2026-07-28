@@ -1,4 +1,5 @@
 export * from './atom-avatar';
+export * from './atom-breakpoint';
 export * from './atom-button';
 export * from './atom-dialog';
 export * from './atom-drawer';
