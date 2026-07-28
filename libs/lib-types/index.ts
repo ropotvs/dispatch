@@ -3,4 +3,5 @@ export * from './type-dto-user';
 export * from './type-field';
 export * from './type-field-email';
 export * from './type-field-password';
+export * from './type-field-select';
 export * from './type-form-auth-login';

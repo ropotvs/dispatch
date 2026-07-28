@@ -1,29 +1,38 @@
 'use client';
 
-import { AtomInput } from '@dispatch/atoms';
+import { AtomField, AtomInput } from '@dispatch/atoms';
 import { TypeField, TypeFieldEmail } from '@dispatch/types';
-import { ReactNode } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { Field } from './field';
+import { ReactNode, useId } from 'react';
+import { FieldValues, useController } from 'react-hook-form';
 
-export function FieldEmail(
-  props: TypeField & {
-    label: ReactNode;
+export function FieldEmail<TValues extends FieldValues>(
+  props: TypeField<TValues, TypeFieldEmail> & {
+    label?: ReactNode;
     placeholder?: string;
   },
 ) {
-  const form = useFormContext<Record<string, TypeFieldEmail>>();
+  const id = useId();
+  const controller = useController({
+    control: props.control,
+    name: props.name,
+    rules: props.rules,
+  });
 
   return (
-    <Field label={props.label}>
+    <AtomField
+      error={controller.fieldState.error?.message}
+      label={props.label}
+      labelFor={id}
+    >
       <AtomInput
-        {...form.register(props.name)}
-        id={props.id}
+        {...controller.field}
+        id={id}
         type="email"
         autoComplete="email"
+        aria-invalid={controller.fieldState.invalid}
         spellCheck={false}
         placeholder={props.placeholder}
       />
-    </Field>
+    </AtomField>
   );
 }

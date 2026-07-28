@@ -1,40 +1,46 @@
 'use client';
 
-import { AtomInput } from '@dispatch/atoms';
+import { AtomField, AtomInput } from '@dispatch/atoms';
 import { IconEye, IconEyeOff } from '@dispatch/icons';
 import { TypeField, TypeFieldPassword } from '@dispatch/types';
 import { clsx } from 'clsx';
-import { ReactNode, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { Field } from './field';
+import { ReactNode, useId, useState } from 'react';
+import { FieldValues, useController } from 'react-hook-form';
 
-export function FieldPassword(
-  props: TypeField & {
-    label: ReactNode;
+export function FieldPassword<TValues extends FieldValues>(
+  props: TypeField<TValues, TypeFieldPassword> & {
+    label?: ReactNode;
     placeholder?: string;
     autocomplete?: 'current-password' | 'new-password';
   },
 ) {
-  const form = useFormContext<Record<string, TypeFieldPassword>>();
-  const registration = form.register(props.name);
-  const [filled, setFilled] = useState(false);
   const [revealed, setRevealed] = useState(false);
 
+  const id = useId();
+  const controller = useController({
+    control: props.control,
+    name: props.name,
+    rules: props.rules,
+  });
+
+  const filled = String(controller.field.value ?? '').length > 0;
+
   return (
-    <Field label={props.label}>
+    <AtomField
+      error={controller.fieldState.error?.message}
+      label={props.label}
+      labelFor={id}
+    >
       <div className="relative">
         <AtomInput
-          {...registration}
-          id={props.id}
+          {...controller.field}
+          id={id}
           className={clsx(filled && 'pr-11')}
           spellCheck={false}
+          aria-invalid={controller.fieldState.invalid}
           autoComplete={props.autocomplete}
           placeholder={props.placeholder}
           type={revealed ? 'text' : 'password'}
-          onChange={(event) => {
-            setFilled(event.target.value.length > 0);
-            return registration.onChange(event);
-          }}
         />
         {filled && (
           <button
@@ -47,6 +53,6 @@ export function FieldPassword(
           </button>
         )}
       </div>
-    </Field>
+    </AtomField>
   );
 }
