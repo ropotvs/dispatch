@@ -68,6 +68,19 @@ export function FeedListView(props: {
         item.id === message.id ? message : item,
       ),
     });
+    const fresh = await actionMessagesGet({
+      filterDateFrom: props.filter.dateFrom || undefined,
+      filterDateTo: props.filter.dateTo || undefined,
+      filterTag: props.filter.tag || undefined,
+      filterAuthorId: props.filter.authorId || undefined,
+      pageIndex: 0,
+      pageSize: feed.pageCount * ConstMessagesPageSize,
+    });
+    setFeed({
+      count: fresh.count,
+      messages: fresh.data,
+      pageCount: feed.pageCount,
+    });
   };
 
   const deleteMessage = async (message: TypeDtoMessage) => {
