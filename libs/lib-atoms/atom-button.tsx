@@ -25,7 +25,7 @@ export function AtomButton(props: {
     ...props.element?.props,
     children: props.children,
     className: clsx(
-      'border-ink inline-flex cursor-pointer items-center justify-center gap-2 font-mono font-bold transition-[translate,box-shadow] duration-100',
+      'border-ink inline-flex cursor-pointer items-center justify-center gap-2 font-mono font-bold transition-[translate,box-shadow] duration-100 disabled:pointer-events-none disabled:opacity-40',
       { brand: 'bg-brand', white: 'bg-white' }[props.color ?? 'brand'],
       {
         xs: 'border-2 px-2 py-1 text-[0.6875rem] lg:px-3 lg:py-1.5 lg:text-xs',
