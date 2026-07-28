@@ -22,6 +22,7 @@
       "@dispatch/actions": ["./libs/lib-actions/index.ts"],
       "@dispatch/atoms": ["./libs/lib-atoms/index.ts"],
       "@dispatch/consts": ["./libs/lib-consts/index.ts"],
+      "@dispatch/dialogs/*": ["./libs/lib-dialogs/*"],
       "@dispatch/enums": ["./libs/lib-enums/index.ts"],
       "@dispatch/feats/*": ["./libs/lib-feats/*"],
       "@dispatch/fields": ["./libs/lib-fields/index.ts"],
