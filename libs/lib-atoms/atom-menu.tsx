@@ -12,7 +12,11 @@ import {
 
 export function AtomMenu(props: {
   align?: 'end' | 'start';
-  trigger: ReactElement<{ onClick?: MouseEventHandler<HTMLElement> }>;
+  trigger: ReactElement<{
+    'aria-expanded'?: boolean;
+    'aria-haspopup'?: 'menu';
+    onClick?: MouseEventHandler<HTMLElement>;
+  }>;
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -21,7 +25,11 @@ export function AtomMenu(props: {
 
   return (
     <div className="relative">
-      {cloneElement(props.trigger, { onClick: () => setOpen(!open) })}
+      {cloneElement(props.trigger, {
+        'aria-expanded': open,
+        'aria-haspopup': 'menu',
+        onClick: () => setOpen(!open),
+      })}
       {open && (
         <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
       )}

@@ -10,7 +10,11 @@ import {
 } from 'react';
 
 export function AtomDrawer(props: {
-  trigger: ReactElement<{ onClick?: MouseEventHandler<HTMLElement> }>;
+  trigger: ReactElement<{
+    'aria-expanded'?: boolean;
+    'aria-haspopup'?: 'dialog';
+    onClick?: MouseEventHandler<HTMLElement>;
+  }>;
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -20,7 +24,11 @@ export function AtomDrawer(props: {
 
   return (
     <>
-      {cloneElement(props.trigger, { onClick: () => setOpen(!open) })}
+      {cloneElement(props.trigger, {
+        'aria-expanded': open,
+        'aria-haspopup': 'dialog',
+        onClick: () => setOpen(!open),
+      })}
       {open && (
         <div
           className="bg-ink/50 motion-safe:animate-fade-in fixed inset-0 z-30"
