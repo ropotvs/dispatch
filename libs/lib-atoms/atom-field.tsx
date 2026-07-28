@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { AtomFieldError } from './atom-field-error';
 
 export function AtomField(props: {
   children: ReactNode;
@@ -17,11 +18,7 @@ export function AtomField(props: {
         </label>
       )}
       {props.children}
-      {props.error && (
-        <p className="text-error font-mono text-[0.625rem] font-bold tracking-[0.08em] uppercase">
-          {props.error}
-        </p>
-      )}
+      {props.error && <AtomFieldError>{props.error}</AtomFieldError>}
     </div>
   );
 }

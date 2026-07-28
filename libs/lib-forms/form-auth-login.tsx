@@ -1,6 +1,6 @@
 'use client';
 
-import { AtomButton } from '@dispatch/atoms';
+import { AtomButton, AtomFieldError } from '@dispatch/atoms';
 import { FieldEmail, FieldPassword } from '@dispatch/fields';
 import { IconArrowRight } from '@dispatch/icons';
 import { TypeFormAuthLogin } from '@dispatch/types';
@@ -42,9 +42,7 @@ export function FormAuthLogin(props: {
         />
       </div>
       {props.error && (
-        <p className="text-error mt-4.5 font-mono text-[0.625rem] font-bold tracking-[0.08em] uppercase">
-          {props.error}
-        </p>
+        <AtomFieldError className="mt-4.5">{props.error}</AtomFieldError>
       )}
       <AtomButton type="submit" className="mt-7 w-full lg:mt-8">
         LOG IN <IconArrowRight />

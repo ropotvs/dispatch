@@ -7,6 +7,7 @@ export * from './atom-dialog-subtitle';
 export * from './atom-dialog-title';
 export * from './atom-drawer';
 export * from './atom-field';
+export * from './atom-field-error';
 export * from './atom-input';
 export * from './atom-logo';
 export * from './atom-menu';
