@@ -1,27 +1,22 @@
 'use client';
 
-import { clsx } from 'clsx';
-import { ReactNode, useState } from 'react';
+import {
+  cloneElement,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+  useState,
+} from 'react';
 
 export function AtomMenu(props: {
-  className?: string;
-  trigger: ReactNode;
+  trigger: ReactElement<{ onClick?: MouseEventHandler<HTMLElement> }>;
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
 
   return (
     <div className="relative">
-      <button
-        className={clsx(
-          'border-ink flex cursor-pointer items-center bg-white',
-          props.className,
-        )}
-        onClick={() => setOpen(!open)}
-        type="button"
-      >
-        {props.trigger}
-      </button>
+      {cloneElement(props.trigger, { onClick: () => setOpen(!open) })}
       {open && (
         <div className="fixed inset-0 z-30" onClick={() => setOpen(false)} />
       )}
