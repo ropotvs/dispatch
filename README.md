@@ -38,6 +38,7 @@ All built at mobile (390) and desktop (1440) breakpoints, matched against the de
 - More improvisation where the design is silent: the compose textarea auto-grows with content (`field-sizing: content`, fixed-height fallback outside Chromium), the counter warns orange near the 240 limit and turns red at it — surfacing on mobile only once it matters; timestamps show the absolute date on hover; the empty state links straight to clearing filters; date fields draw the hand-drawn calendar icon where the native picker can be restyled (Firefox keeps its own)
 - react-hook-form everywhere, headless (login, compose, filter bar) — it renders nothing, so components stay hand-built
 - Feed screens render full-bleed; the design frames' outer border/shadow is treated as artboard chrome
+- Node's gzip buffers streamed responses in Safari, hiding the skeletons until the stream completes — compression is off (`compress: false`) in favor of correct streaming everywhere; a real deployment would compress at the CDN/proxy layer instead
 - Ada (@ada_l) is the mock current user: yellow avatar, edit/delete affordances on her message only
 - `TODO (out of scope)` comments mark the deliberate boundaries — real auth, message creation, LOAD MORE pagination
 
