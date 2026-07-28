@@ -34,6 +34,8 @@ All built at mobile (390) and desktop (1440) breakpoints, matched against the de
 - Compose and filters are parallel route slots (`@compose`, `@filters`) — layout-level regions that still read searchParams and re-render on navigation while the layout itself persists; only the message list suspends during filter changes
 - Desktop/mobile DOM variants (filter sidebar vs drawer, header user area) switch through one `AtomBreakpoint` atom — SSR renders both gated by CSS so first paint is always correct, then hydration collapses to a single variant; no flicker, no permanent double DOM
 - Light interactivity where it sells the UI: char counter, tag dropdown, password reveal, message chips highlight the active filter tag, body scroll locks under dialogs and drawers
+- Interaction states follow the design's physicality: shadowed buttons press into their offset shadow on hover/press, flat chips and controls lift off the page; overlays fade/slide/pop in at ~150ms (gated behind `prefers-reduced-motion`); Esc closes dialog, drawer, and menus
+- More improvisation where the design is silent: the compose textarea auto-grows with content (`field-sizing: content`, fixed-height fallback outside Chromium), the counter warns orange near the 240 limit and turns red at it — surfacing on mobile only once it matters; timestamps show the absolute date on hover; the empty state links straight to clearing filters; date fields draw the hand-drawn calendar icon where the native picker can be restyled (Firefox keeps its own)
 - react-hook-form everywhere, headless (login, compose, filter bar) — it renders nothing, so components stay hand-built
 - Feed screens render full-bleed; the design frames' outer border/shadow is treated as artboard chrome
 - Ada (@ada_l) is the mock current user: yellow avatar, edit/delete affordances on her message only
@@ -53,14 +55,14 @@ Everything in `libs/` is dumb: components render from props (plus their own UI s
 | `lib-dialogs` | Dialog compositions — logout confirmation                                              |
 | `lib-pages`   | Route-level views and shells, composed by `app/`                                       |
 | `lib-actions` | The fake API — seeded users/messages, fake latency, filters (tag, user, dates), paging |
-| `lib-hooks`   | `useMediaQuery`, `useIsHydrated`, `useBodyScrollLock`                                  |
+| `lib-hooks`   | `useMediaQuery`, `useIsHydrated`, `useBodyScrollLock`, `useKeydown`                    |
 | `lib-maps`    | Query-param serialization — object ⇄ URL query value                                   |
-| `lib-formats` | Display formatting — relative dates                                                    |
+| `lib-formats` | Display formatting — relative and absolute dates                                       |
 | `lib-enums`   | Message tags                                                                           |
 | `lib-types`   | Shared types                                                                           |
 | `lib-consts`  | Shared constants (message max length)                                                  |
 | `lib-fonts`   | next/font definitions — Space Grotesk, Space Mono                                      |
-| `lib-styles`  | Tailwind theme — colors, breakpoint token                                              |
+| `lib-styles`  | Tailwind theme — colors, breakpoint token, motion keyframes                            |
 
 Dependencies point strictly downward; leaves import nothing:
 
